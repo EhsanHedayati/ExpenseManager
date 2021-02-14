@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottom_left_radius">15dp</dimen>
+    <dimen name="top_left_radius">15dp</dimen>
+    <dimen name="bottom_right_radius">0.1dp</dimen>
+    <dimen name="top_right_radius">0.1dp</dimen>
+    <dimen name="main_icon_height">120dp</dimen>
+    <dimen name="right_margin_icon">100dp</dimen>
+    <dimen name="right_margin_of_icon">20dp</dimen>
+
+</resources>

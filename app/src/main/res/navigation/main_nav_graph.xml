@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_nav_graph"
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.mylab.expensemanager.ui.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_incomeFragment"
+            app:destination="@id/incomeFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_expenseFragment"
+            app:destination="@id/expenseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/incomeFragment"
+        android:name="com.mylab.expensemanager.ui.IncomeFragment"
+        android:label="IncomeFragment" >
+        <action
+            android:id="@+id/action_incomeFragment_to_incomeEntryFragment"
+            app:destination="@id/incomeEntryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/expenseFragment"
+        android:name="com.mylab.expensemanager.ui.ExpenseFragment"
+        android:label="ExpenseFragment" >
+        <action
+            android:id="@+id/action_expenseFragment_to_expenseEntryFragment"
+            app:destination="@id/expenseEntryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/incomeEntryFragment"
+        android:name="com.mylab.expensemanager.ui.IncomeEntryFragment"
+        android:label="IncomeEntryFragment" >
+        <argument
+            android:name="amountType"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/expenseEntryFragment"
+        android:name="com.mylab.expensemanager.ui.ExpenseEntryFragment"
+        android:label="ExpenseEntryFragment" >
+        <argument
+            android:name="amountType"
+            app:argType="integer" />
+    </fragment>
+</navigation>
