@@ -12,6 +12,7 @@ class IncomeExpenseTitleAdapter(context: Context, titleList: List<ExpenseSpec>) 
     ArrayAdapter<ExpenseSpec>(context, 0, titleList) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+
         return initView(position, convertView, parent)
     }
 
@@ -30,8 +31,6 @@ class IncomeExpenseTitleAdapter(context: Context, titleList: List<ExpenseSpec>) 
 
         return view
     }
-
-
 
 
 }

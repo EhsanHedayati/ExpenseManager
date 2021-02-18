@@ -31,7 +31,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel.readAllExpenseSpec.observe(viewLifecycleOwner) {
+        mainViewModel.expenseSpecCount.observe(viewLifecycleOwner) {
 
             if (it.isEmpty()) {
                 mainViewModel.insertAllExpenseSpec(getIncomeExpenseSpecList())
@@ -43,6 +43,9 @@ class MainFragment : Fragment() {
         }
         binding.view2.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_expenseFragment)
+        }
+        binding.view4.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_detailsFragment)
         }
 
         binding.mainModel = mainViewModel
@@ -71,7 +74,7 @@ class MainFragment : Fragment() {
         incomeExpenseSpec.add(ExpenseSpec(0, "پوشاک", R.drawable.ic_icon_clothing, 0))
         incomeExpenseSpec.add(ExpenseSpec(0, "درمان", R.drawable.ic_icon_treatment, 0))
         incomeExpenseSpec.add(ExpenseSpec(0, "پس انداز", R.drawable.ic_icon_money_box, 0))
-        incomeExpenseSpec.add(ExpenseSpec(0, "سرمایه گ", R.drawable.ic_icon_investment, 0))
+        incomeExpenseSpec.add(ExpenseSpec(0, "سرمایه گذاری", R.drawable.ic_icon_investment, 0))
 
         return incomeExpenseSpec
     }

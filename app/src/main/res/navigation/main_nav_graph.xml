@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_mainFragment_to_expenseFragment"
             app:destination="@id/expenseFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/incomeFragment"
@@ -45,4 +48,8 @@
             android:name="amountType"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.mylab.expensemanager.ui.DetailsFragment"
+        android:label="DetailsFragment" />
 </navigation>

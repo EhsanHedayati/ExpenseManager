@@ -11,10 +11,10 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val expenseRepository: ExpenseRepository) : ViewModel() {
 
-    val readAllExpenseSpec: LiveData<List<ExpenseSpec>> = expenseRepository.readAllExpenseSpec
+    val expenseSpecCount: LiveData<List<ExpenseSpec>> = expenseRepository.expenseSpecCount
 
-    private val onLineIncome: LiveData<Long> = expenseRepository.totalLiveIncome()
-    private val onLineExpense: LiveData<Long> = expenseRepository.totalLiveExpense()
+    private val onLineIncome: LiveData<Long> = expenseRepository.totalLiveIncome
+    private val onLineExpense: LiveData<Long> = expenseRepository.totalLiveExpense
     val balance = MediatorLiveData<Long>()
 
     init {

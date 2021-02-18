@@ -91,6 +91,12 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
     implementation "org.koin:koin-androidx-scope:$koin_version"
 
+    //afkarDatePicker
+    implementation 'com.alirezaafkar:sundatepicker:2.1.2'
+
+
+
+
 
 
 

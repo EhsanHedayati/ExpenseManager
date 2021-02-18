@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mylab.expensemanager.databinding.IncomeListItemBinding
-import com.mylab.expensemanager.datamodel.Expense
 import com.mylab.expensemanager.datamodel.ExpenseSpec
 
 class IncomeListAdapter :
@@ -34,10 +33,12 @@ class IncomeListAdapter :
 
         fun bind(expenseSpec: ExpenseSpec) {
 
+
             circleImage.setImageResource(expenseSpec.image)
             titleTextView.text = expenseSpec.title
-            percentTextView.text = expenseSpec.sum.toString()
+            percentTextView.text = String.format("%d%1s", expenseSpec.sum,"%")
             progressBar.progress = expenseSpec.sum.toInt()
+
 
         }
     }

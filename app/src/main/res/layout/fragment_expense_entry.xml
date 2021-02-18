@@ -56,23 +56,21 @@
             android:padding="10dp"
             android:textColor="@color/title_color"
             android:textColorHint="@color/title_color"
-            app:layout_constraintBottom_toTopOf="@+id/expense_entry_date"
+            app:layout_constraintBottom_toTopOf="@+id/date_expense_entry"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/expense_entry_spinner" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/expense_entry_date"
+            android:id="@+id/date_expense_entry"
             android:layout_width="283dp"
             android:layout_height="50dp"
             android:background="@drawable/edit_text_shape"
             android:ems="10"
             android:hint="تاریخ هزینه"
             android:textSize="18sp"
-
             android:gravity="fill_horizontal"
-            android:inputType="textPersonName"
             android:padding="10dp"
             android:textColor="@color/title_color"
             android:textColorHint="@color/title_color"
@@ -98,7 +96,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/expense_entry_date" />
+            app:layout_constraintTop_toBottomOf="@+id/date_expense_entry" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/expense_entry_button"

@@ -46,11 +46,21 @@ interface ExpenseDao {
     @Query("SELECT SUM(amount) FROM expense_table WHERE date BETWEEN :startDate AND :endDate AND amountType = 1")
     suspend fun weekIncome(startDate: Long, endDate: Long): Long?
 
+    @Query("SELECT SUM(amount) FROM expense_table WHERE date BETWEEN :startDate AND :endDate AND amountType = 0")
+    suspend fun weekExpense(startDate: Long, endDate: Long): Long?
+
     @Query("SELECT SUM(amount) FROM expense_table WHERE title = 'حقوق' AND date BETWEEN :startDate AND :endDate")
     fun weekPay(startDate: Long, endDate: Long): LiveData<Long>
 
     @Query("SELECT * FROM expense_spec_table")
+    fun expenseSpecCount(): LiveData<List<ExpenseSpec>>
+
+    @Query("SELECT * FROM expense_spec_table WHERE expenseType = 1")
+    fun readAllIncomeSpec(): LiveData<List<ExpenseSpec>>
+
+    @Query("SELECT * FROM expense_spec_table WHERE expenseType = 0")
     fun readAllExpenseSpec(): LiveData<List<ExpenseSpec>>
+
 
     @Query("SELECT * FROM expense_spec_table WHERE expenseType = 1")
     fun fillIncomeSpinner(): LiveData<List<ExpenseSpec>>
@@ -68,8 +78,17 @@ interface ExpenseDao {
     @Query("SELECT title FROM expense_spec_table WHERE expenseType = 1")
     fun incomeTitleList(): LiveData<List<String>>
 
-    @Query("SELECT SUM(amount) FROM expense_table WHERE title = :title AND date BETWEEN :startDate AND :endDate")
+    @Query("SELECT SUM(amount) FROM expense_table WHERE title = :title AND date BETWEEN :startDate AND :endDate AND amountType = 1")
     suspend fun weekParametric(title: String, startDate: Long, endDate: Long): Long
+
+    @Query("SELECT SUM(amount) FROM expense_table WHERE title = :title AND date BETWEEN :startDate AND :endDate AND amountType = 0")
+    suspend fun weekExpenseParametric(title: String, startDate: Long, endDate: Long): Long
+
+    @Query("SELECT title FROM expense_table WHERE date BETWEEN :startDate AND :endDate")
+    suspend fun provideTitle(startDate: Long, endDate: Long): List<String>
+
+
+
 
 
 }

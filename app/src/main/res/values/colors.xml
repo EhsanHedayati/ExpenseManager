@@ -10,4 +10,5 @@
     <color name="title_color">#1a3fff</color>
     <color name="edit_border">#C5BDBD</color>
     <color name="navy_blue">#000e57</color>
+    <color name="default_button_text">#4C5EBF</color>
 </resources>

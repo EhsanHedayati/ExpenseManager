@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.alirezaafkar.sundatepicker.DatePicker
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar
 import com.mylab.expensemanager.IncomeExpenseTitleAdapter
 import com.mylab.expensemanager.databinding.FragmentIncomeEntryBinding
 import com.mylab.expensemanager.datamodel.Expense
 import com.mylab.expensemanager.datamodel.ExpenseSpec
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
 
@@ -21,7 +23,6 @@ class IncomeEntryFragment : Fragment() {
 
     lateinit var binding: FragmentIncomeEntryBinding
     private val incomeEntryModel: IncomeEntryViewModel by inject()
-    private val persianCalendar = PersianCalendar()
     var expenseSpec: ExpenseSpec? = null
     var title: String? = null
     private var dateMillie: Long? = null
@@ -49,22 +50,19 @@ class IncomeEntryFragment : Fragment() {
 
         binding.incomeEntryDate.setOnClickListener {
 
-            val datePickerDialog = DatePickerDialog.newInstance(
-                { _, year, monthOfYear, dayOfMonth ->
+            activity?.let { it1 ->
+                object : DatePicker.Builder() {}
+                    .id(1)
+                    .minDate(1390, 1, 1)
+                    .maxDate(1420, 1, 1)
+                    .date(1, 1, 1399)
+                    .build { id, calendar, day, month, year ->
 
-
-                    dateMillie = persianCalendar.timeInMillis
-                    val month = persianCalendar.persianMonthName
-                    binding.incomeEntryDate.text = "$dayOfMonth $month $year"
-
-
-                },
-                persianCalendar.persianYear,
-                persianCalendar.persianMonth,
-                persianCalendar.persianDay
-            )
-
-            datePickerDialog.show(activity?.fragmentManager, "DatePickerDialog")
+                        dateMillie = calendar?.timeInMillis
+                        binding.incomeEntryDate.text = "$year / $month / $day"
+                    }
+                    .show(it1.supportFragmentManager, "")
+            }
 
         }
 

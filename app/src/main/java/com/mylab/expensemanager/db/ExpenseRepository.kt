@@ -7,14 +7,28 @@ import com.mylab.expensemanager.datamodel.ExpenseSpec
 class ExpenseRepository(private val expenseDao: ExpenseDao) {
 
 
+    val expenseSpecCount: LiveData<List<ExpenseSpec>> = expenseDao.expenseSpecCount()
+    val readAllIncomeSpec: LiveData<List<ExpenseSpec>> = expenseDao.readAllIncomeSpec()
     val readAllExpenseSpec: LiveData<List<ExpenseSpec>> = expenseDao.readAllExpenseSpec()
     val fillIncomeSpinner: LiveData<List<ExpenseSpec>> = expenseDao.fillIncomeSpinner()
     val fillExpenseSpinner: LiveData<List<ExpenseSpec>> = expenseDao.fillExpenseSpinner()
+    val totalLiveIncome: LiveData<Long> = expenseDao.totalLiveIncome()
+    val totalLiveExpense: LiveData<Long> = expenseDao.totalLiveExpense()
+
+
+    suspend fun provideTitle(startDate: Long, endDate: Long): List<String> {
+        return expenseDao.provideTitle(startDate, endDate)
+
+    }
 
 
     suspend fun weekParametric(title: String, startDate: Long, endDate: Long): Long {
 
         return expenseDao.weekParametric(title, startDate, endDate)
+    }
+
+    suspend fun weekExpenseParametric(title: String, startDate: Long, endDate: Long): Long {
+        return expenseDao.weekExpenseParametric(title, startDate, endDate)
     }
 
 
@@ -33,14 +47,14 @@ class ExpenseRepository(private val expenseDao: ExpenseDao) {
         expenseDao.insertAllExpenseSpec(objects)
     }
 
-    fun totalLiveIncome(): LiveData<Long> {
+    /*fun totalLiveIncome(): LiveData<Long> {
 
         return expenseDao.totalLiveIncome()
     }
 
     fun totalLiveExpense(): LiveData<Long> {
         return expenseDao.totalLiveExpense()
-    }
+    }*/
 
 
     suspend fun updateExpense(expense: Expense) {
@@ -83,6 +97,13 @@ class ExpenseRepository(private val expenseDao: ExpenseDao) {
         endDate: Long
     ): Long? {
         return expenseDao.weekIncome(startDate, endDate)
+    }
+
+    suspend fun weekExpense(
+        startDate: Long,
+        endDate: Long
+    ): Long? {
+        return expenseDao.weekExpense(startDate, endDate)
     }
 
 

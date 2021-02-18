@@ -1,6 +1,7 @@
 package com.mylab.expensemanager.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.alirezaafkar.sundatepicker.DatePicker
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar
 import com.mylab.expensemanager.IncomeExpenseTitleAdapter
@@ -17,12 +19,12 @@ import com.mylab.expensemanager.datamodel.ExpenseSpec
 import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 
-
 class ExpenseEntryFragment : Fragment() {
+
+    private val TAG = "ExpenseEntryFragment"
 
     lateinit var binding: FragmentExpenseEntryBinding
     private val expenseEntryModel: ExpenseEntryViewModel by inject()
-    private val persianCalendar = PersianCalendar()
     var expenseSpec: ExpenseSpec? = null
     var title: String? = null
     private var dateMillie: Long? = null
@@ -44,23 +46,29 @@ class ExpenseEntryFragment : Fragment() {
             binding.expenseEntrySpinner.adapter = IncomeExpenseTitleAdapter(requireContext(), it)
         }
 
-        binding.expenseEntryDate.setOnClickListener {
-            val datePickerDialog = DatePickerDialog.newInstance(
-                { _, year, monthOfYear, dayOfMonth ->
+        binding.dateExpenseEntry.setOnClickListener {
+
+            activity?.let { it1 ->
+                object : DatePicker.Builder() {}
+                    .id(1)
+                    .minDate(1390, 1, 1)
+                    .maxDate(1420, 1, 1)
+                    .date(1, 1, 1399)
+                    .build { id, calendar, day, month, year ->
+
+                        //binding.dateExpenseEntry.text = "$year / $month / $day"
+                        dateMillie = calendar?.timeInMillis
+                        binding.dateExpenseEntry.setText("$year / $month / $day")
 
 
-                    dateMillie = persianCalendar.timeInMillis
-                    val month = persianCalendar.persianMonthName
-                    binding.expenseEntryDate.text = "$dayOfMonth $month $year"
 
 
-                },
-                persianCalendar.persianYear,
-                persianCalendar.persianMonth,
-                persianCalendar.persianDay
-            )
+                    }
+                    .show(it1.supportFragmentManager, "")
 
-            datePickerDialog.show(activity?.fragmentManager, "DatePickerDialog")
+            }
+
+
         }
 
         binding.expenseEntrySpinner.onItemSelectedListener =
@@ -85,7 +93,7 @@ class ExpenseEntryFragment : Fragment() {
         binding.expenseEntryButton.setOnClickListener {
 
             val amount = binding.expenseEntryAmount.text.toString()
-            val date = binding.expenseEntryDate.text.toString()
+            val date = binding.dateExpenseEntry.text.toString()
             var desc = binding.expenseEntryDesc.text.toString()
 
             if (desc.isNullOrBlank()) {
