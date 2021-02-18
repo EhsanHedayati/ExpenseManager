@@ -62,7 +62,6 @@ class ExpenseEntryFragment : Fragment() {
 
 
 
-
                     }
                     .show(it1.supportFragmentManager, "")
 
@@ -95,6 +94,7 @@ class ExpenseEntryFragment : Fragment() {
             val amount = binding.expenseEntryAmount.text.toString()
             val date = binding.dateExpenseEntry.text.toString()
             var desc = binding.expenseEntryDesc.text.toString()
+
 
             if (desc.isNullOrBlank()) {
                 desc = ""

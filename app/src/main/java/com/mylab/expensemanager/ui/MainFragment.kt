@@ -1,6 +1,7 @@
 package com.mylab.expensemanager.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,12 @@ import androidx.navigation.fragment.findNavController
 import com.mylab.expensemanager.R
 import com.mylab.expensemanager.databinding.FragmentMainBinding
 import com.mylab.expensemanager.datamodel.ExpenseSpec
+import com.mylab.expensemanager.util.firsDayOfWeek
+import com.mylab.expensemanager.util.getPersianDate
+import com.mylab.expensemanager.util.getToday
 import org.koin.android.ext.android.inject
 
+private const val TAG = "MainFragment"
 
 class MainFragment : Fragment() {
     lateinit var binding: FragmentMainBinding
@@ -31,6 +36,9 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.i(TAG, "onViewCreated: getToday "+ getToday())
+        Log.i(TAG, "onViewCreated: getPersianDate"+ getPersianDate(getToday()))
+        firsDayOfWeek()
         mainViewModel.expenseSpecCount.observe(viewLifecycleOwner) {
 
             if (it.isEmpty()) {

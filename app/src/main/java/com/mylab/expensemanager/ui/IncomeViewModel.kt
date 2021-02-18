@@ -10,6 +10,10 @@ import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar
 import com.mylab.expensemanager.datamodel.ChartInfo
 import com.mylab.expensemanager.datamodel.ExpenseSpec
 import com.mylab.expensemanager.db.ExpenseRepository
+import com.mylab.expensemanager.util.firsDayOfMonth
+import com.mylab.expensemanager.util.firsDayOfWeek
+import com.mylab.expensemanager.util.firsDayOfYear
+import com.mylab.expensemanager.util.getPersianDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
@@ -303,10 +307,11 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
     }
 
     private suspend fun yearIncome(
-        startDate: Long = oneYearAgo(),
+        startDate: Long = firsDayOfYear(),
         endDate: Long = Date().time
 
     ): Long? {
+        Log.i(TAG, "yearIncome: ${getPersianDate(startDate)}/${getPersianDate(endDate)}")
         return expenseRepository.weekIncome(startDate, endDate)
     }
 
@@ -320,25 +325,26 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
 
     private fun oneMonthAgo(): Long {
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.MONTH, -1)
-        return cal.timeInMillis
+        return firsDayOfMonth()
     }
 
 
     private suspend fun monthIncome(
-        startDate: Long = oneMonthAgo(),
+        startDate: Long = firsDayOfMonth(),
         endDate: Long = Date().time
     ): Long? {
+        Log.i(TAG, "monthIncome: $startDate/$endDate")
         return expenseRepository.weekIncome(startDate, endDate)
     }
 
     private suspend fun monthParametric(
         title: String,
-        startDate: Long = oneMonthAgo(),
+        startDate: Long = firsDayOfMonth(),
         endDate: Long = Date().time
     ): Long {
+        Log.i(TAG, "monthIncome: ${getPersianDate(startDate)}/${getPersianDate(endDate)}")
         return expenseRepository.weekParametric(title, startDate, endDate)
+
     }
 
 
@@ -351,9 +357,10 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
     //Date().time - 7 * 24 * 60 * 60 * 1000
     private suspend fun weekIncome(
-        startDate: Long = oneWeekAgo(),
+        startDate: Long = firsDayOfWeek(),
         endDate: Long = Date().time
     ): Long? {
+        Log.i(TAG, "weekIncome: ${getPersianDate(startDate)}/${getPersianDate(endDate)}")
         return expenseRepository.weekIncome(startDate, endDate)
     }
 

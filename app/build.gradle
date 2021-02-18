@@ -94,6 +94,9 @@ dependencies {
     //afkarDatePicker
     implementation 'com.alirezaafkar:sundatepicker:2.1.2'
 
+    //jodatime
+    compile 'com.github.mohamadian:PersianJodaTime:1.2'
+
 
 
 
