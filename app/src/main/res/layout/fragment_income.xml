@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="incomeModel"
             type="com.mylab.expensemanager.ui.IncomeViewModel" />
@@ -193,11 +194,22 @@
                 android:id="@+id/income_barChart"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:visibility="@{!incomeModel.isListEmpty? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/more_less_layout" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="مقادیری برای نمایش وجود ندارد"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/white"
+                android:visibility="@{incomeModel.isListEmpty? View.VISIBLE : View.GONE}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/income_barChart" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

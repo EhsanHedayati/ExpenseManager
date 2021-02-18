@@ -44,12 +44,32 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
         balance.addSource(onLineIncome, this::onChanged)
         balance.addSource(onLineExpense, this::onChanged)
 
-        weekExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
-            addWeekDataToSpec(it)
-        }
-        weekExpenseSpecs.addSource(expenseRepository.totalLiveIncome) {
+//        weekExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
+//            addWeekDataToSpec(it)
+//        }
+//        weekExpenseSpecs.addSource(expenseRepository.totalLiveIncome) {
+//            expenseRepository.readAllIncomeSpec.value?.let {
+//                addWeekDataToSpec(it)
+//            }
+//        }
+
+        expense.addSource(expenseRepository.totalLiveIncome) {
             expenseRepository.readAllIncomeSpec.value?.let {
-                addWeekDataToSpec(it)
+                when(dateType.value){
+                    1->addWeekDataToSpec(it)
+                    2->addMonthDataToSpec(it)
+                    3->addYearDataToSpec(it)
+                }
+            }
+        }
+
+        expense.addSource(dateType) {
+            expenseRepository.readAllIncomeSpec.value?.let {
+                when(dateType.value){
+                    1->addWeekDataToSpec(it)
+                    2->addMonthDataToSpec(it)
+                    3->addYearDataToSpec(it)
+                }
             }
         }
 
@@ -60,15 +80,18 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                 3->addYearDataToSpec(it)
             }
         }
-        monthExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
-            addMonthDataToSpec(it)
-        }
-        monthExpenseSpecs.addSource(expenseRepository.totalLiveIncome) {
-            expenseRepository.readAllIncomeSpec.value?.let {
-                addMonthDataToSpec(it)
-            }
-        }
+//        monthExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
+//            addMonthDataToSpec(it)
+//        }
+//        monthExpenseSpecs.addSource(expenseRepository.totalLiveIncome) {
+//            expenseRepository.readAllIncomeSpec.value?.let {
+//                addMonthDataToSpec(it)
+//            }
+//        }
 
+        isListEmpty.addSource(expense){
+            isListEmpty.value = it.isNullOrEmpty()
+        }
         yearExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
             addYearDataToSpec(it)
 

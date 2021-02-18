@@ -185,11 +185,11 @@ class IncomeFragment : Fragment() {
 
     private fun observeExpense(listAdapter: IncomeListAdapter){
         incomeViewModel.expense.observe(viewLifecycleOwner) {
-
+            Log.i(TAG, "observeExpense: $it")
             try {
                 listAdapter.notifyDataSetChanged()
-                listAdapter.submitList(incomeViewModel.weekExpenseSpecs.value?.subList(0, 1))
-                listAdapter.submitList(incomeViewModel.weekExpenseSpecs.value?.subList(0, 2))
+                listAdapter.submitList(incomeViewModel.expense.value?.subList(0, 1))
+                listAdapter.submitList(incomeViewModel.expense.value?.subList(0, 2))
 
 
             } catch (e: IndexOutOfBoundsException) {
@@ -200,12 +200,12 @@ class IncomeFragment : Fragment() {
             binding.incomeMoreLessImg.setOnClickListener {
 
                 if (binding.incomeBarChart.visibility == View.VISIBLE) {
-                    listAdapter.submitList(incomeViewModel.weekExpenseSpecs.value)
+                    listAdapter.submitList(incomeViewModel.expense.value)
                     binding.incomeBarChart.visibility = View.GONE
                     binding.incomeMoreLessImg.setImageResource(R.drawable.ic_baseline_expand_less_24)
                 } else {
                     try {
-                        listAdapter.submitList(incomeViewModel.weekExpenseSpecs.value?.subList(0, 2))
+                        listAdapter.submitList(incomeViewModel.expense.value?.subList(0, 2))
                     } catch (e: IndexOutOfBoundsException) {
                         e.printStackTrace()
                     }
