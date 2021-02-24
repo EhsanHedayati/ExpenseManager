@@ -7,6 +7,7 @@ import androidx.lifecycle.*
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.ChartData
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar
+import com.mylab.expensemanager.Duration
 import com.mylab.expensemanager.datamodel.ChartInfo
 import com.mylab.expensemanager.datamodel.DetailsData
 import com.mylab.expensemanager.datamodel.Expense
@@ -35,6 +36,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
     val balance = MediatorLiveData<Long>()
 
     val expense = MediatorLiveData<MutableList<ExpenseSpec>>()
+    val chartData = MediatorLiveData<MutableList<ChartInfo>>()
     val weekExpenseSpecs = MediatorLiveData<MutableList<ExpenseSpec>>()
     val monthExpenseSpecs = MediatorLiveData<MutableList<ExpenseSpec>>()
     val yearExpenseSpecs = MediatorLiveData<MutableList<ExpenseSpec>>()
@@ -42,13 +44,13 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
     val monthChartData = MediatorLiveData<MutableList<ChartInfo>>()
     val yearChartData = MediatorLiveData<MutableList<ChartInfo>>()
     val isListEmpty = MediatorLiveData<Boolean>()
-    val dateType = MutableLiveData(1)//1 week , 2 month, 3 year
-
+    val dateType = MutableLiveData(Duration.WEEK.value)//1 week , 2 month, 3 year
 
 
     init {
         balance.addSource(onLineIncome, this::onChanged)
         balance.addSource(onLineExpense, this::onChanged)
+
 
 //        weekExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
 //            addWeekDataToSpec(it)
@@ -61,30 +63,70 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
         expense.addSource(expenseRepository.totalLiveIncome) {
             expenseRepository.readAllIncomeSpec.value?.let {
-                when(dateType.value){
-                    1->addWeekDataToSpec(it)
-                    2->addMonthDataToSpec(it)
-                    3->addYearDataToSpec(it)
+                when (dateType.value) {
+                    Duration.WEEK.value -> addWeekDataToSpec(it)
+                    Duration.MONTH.value -> addMonthDataToSpec(it)
+                    Duration.YEAR.value -> addYearDataToSpec(it)
                 }
             }
         }
 
         expense.addSource(dateType) {
             expenseRepository.readAllIncomeSpec.value?.let {
-                when(dateType.value){
-                    1->addWeekDataToSpec(it)
-                    2->addMonthDataToSpec(it)
-                    3->addYearDataToSpec(it)
+                when (dateType.value) {
+                    Duration.WEEK.value -> addWeekDataToSpec(it)
+                    Duration.MONTH.value -> addMonthDataToSpec(it)
+                    Duration.YEAR.value -> addYearDataToSpec(it)
                 }
             }
         }
 
-        expense.addSource(expenseRepository.readAllIncomeSpec){
-            when(dateType.value){
-                1->addWeekDataToSpec(it)
-                2->addMonthDataToSpec(it)
-                3->addYearDataToSpec(it)
+        expense.addSource(expenseRepository.readAllIncomeSpec) {
+            when (dateType.value) {
+                Duration.WEEK.value -> addWeekDataToSpec(it)
+                Duration.MONTH.value -> addMonthDataToSpec(it)
+                Duration.YEAR.value -> addYearDataToSpec(it)
             }
+        }
+
+        isListEmpty.addSource(expense) {
+            isListEmpty.value = it.isNullOrEmpty()
+        }
+
+
+
+        chartData.addSource(expenseRepository.readAllIncomeSpec) {
+            when (dateType.value) {
+                Duration.WEEK.value -> getWeekChartInfo(it)
+                Duration.MONTH.value -> getMonthChartInfo(it)
+                Duration.YEAR.value -> getYearChartInfo(it)
+            }
+
+        }
+
+        chartData.addSource(expenseRepository.totalLiveIncome) {
+            expenseRepository.readAllIncomeSpec.value?.let {
+                when (dateType.value) {
+                    Duration.WEEK.value -> getWeekChartInfo(it)
+                    Duration.MONTH.value -> getMonthChartInfo(it)
+                    Duration.YEAR.value -> getYearChartInfo(it)
+                }
+
+            }
+
+        }
+
+        chartData.addSource(dateType) {
+            expenseRepository.readAllIncomeSpec.value?.let {
+                when (dateType.value) {
+                    Duration.WEEK.value -> getWeekChartInfo(it)
+                    Duration.MONTH.value -> getMonthChartInfo(it)
+                    Duration.YEAR.value -> getYearChartInfo(it)
+                }
+
+            }
+
+
         }
 //        monthExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
 //            addMonthDataToSpec(it)
@@ -95,9 +137,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 //            }
 //        }
 
-        isListEmpty.addSource(expense){
-            isListEmpty.value = it.isNullOrEmpty()
-        }
 
         /*yearExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
             addYearDataToSpec(it)
@@ -110,7 +149,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
         }*/
 
-        weekChartData.addSource(expenseRepository.readAllIncomeSpec) {
+        /*weekChartData.addSource(expenseRepository.readAllIncomeSpec) {
             getWeekChartInfo(it)
         }
         weekChartData.addSource(expenseRepository.totalLiveIncome) {
@@ -135,11 +174,10 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
             expenseRepository.readAllIncomeSpec.value?.let {
                 getYearChartInfo(it)
             }
-        }
+        }*/
 
 
     }
-
 
 
     private fun getYearChartInfo(it: List<ExpenseSpec>) {
@@ -158,7 +196,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                     e.printStackTrace()
                 }
             }
-            yearChartData.postValue(list)
+            chartData.postValue(list)
         }
 
 
@@ -180,7 +218,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                     e.printStackTrace()
                 }
             }
-            monthChartData.postValue(list)
+            chartData.postValue(list)
         }
 
     }
@@ -201,7 +239,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                     e.printStackTrace()
                 }
             }
-            weekChartData.postValue(list)
+            chartData.postValue(list)
         }
 
     }
@@ -272,7 +310,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
 
     }
-
 
 
     private fun addWeekDataToSpec(it: List<ExpenseSpec>) {

@@ -13,6 +13,7 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.mylab.expensemanager.Duration
 import com.mylab.expensemanager.IncomeListAdapter
 import com.mylab.expensemanager.R
 import com.mylab.expensemanager.databinding.FragmentExpenseBinding
@@ -48,9 +49,11 @@ class ExpenseFragment : Fragment() {
         binding.expenseRecycler.adapter = listAdapter
         weekInfo(listAdapter)
         getWeekChart()
+        observeExpense(listAdapter)
 
 
         binding.expenseWeekButton.setOnClickListener {
+            expenseViewModel.dateType.value = Duration.WEEK.value
             listAdapter.submitList(emptyList())
             weekInfo(listAdapter)
             getWeekChart()
@@ -58,6 +61,7 @@ class ExpenseFragment : Fragment() {
         }
 
         binding.expenseMonthButton.setOnClickListener {
+            expenseViewModel.dateType.value = Duration.MONTH.value
             listAdapter.submitList(emptyList())
             monthInfo(listAdapter)
             getMonthChart()
@@ -65,6 +69,7 @@ class ExpenseFragment : Fragment() {
         }
 
         binding.expenseYearButton.setOnClickListener {
+            expenseViewModel.dateType.value = Duration.YEAR.value
             listAdapter.submitList(emptyList())
             yearInfo(listAdapter)
             getYearChart()
@@ -84,7 +89,7 @@ class ExpenseFragment : Fragment() {
 
         val barEntry = ArrayList<BarEntry>()
         val labelsName = ArrayList<String>()
-        expenseViewModel.yearChartData.observe(viewLifecycleOwner) {
+        expenseViewModel.chartData.observe(viewLifecycleOwner) {
             it.forEachIndexed { index, chartInfo ->
                 barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
                 labelsName.add(chartInfo.label)
@@ -117,7 +122,7 @@ class ExpenseFragment : Fragment() {
     private fun getMonthChart() {
         val barEntry = ArrayList<BarEntry>()
         val labelsName = ArrayList<String>()
-        expenseViewModel.monthChartData.observe(viewLifecycleOwner) {
+        expenseViewModel.chartData.observe(viewLifecycleOwner) {
             it.forEachIndexed { index, chartInfo ->
                 barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
                 labelsName.add(chartInfo.label)
@@ -149,7 +154,7 @@ class ExpenseFragment : Fragment() {
     private fun getWeekChart() {
         val barEntry = ArrayList<BarEntry>()
         val labelsName = ArrayList<String>()
-        expenseViewModel.weekChartData.observe(viewLifecycleOwner) {
+        expenseViewModel.chartData.observe(viewLifecycleOwner) {
             it.forEachIndexed { index, chartInfo ->
                 barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
                 labelsName.add(chartInfo.label)
@@ -201,13 +206,18 @@ class ExpenseFragment : Fragment() {
             )
         )
 
-        expenseViewModel.yearExpenseSpecs.observe(viewLifecycleOwner) {
+
+
+    }
+
+    private fun observeExpense(listAdapter: IncomeListAdapter) {
+        expenseViewModel.expenseData.observe(viewLifecycleOwner) {
 
 
             try {
                 listAdapter.notifyDataSetChanged()
-                listAdapter.submitList(expenseViewModel.yearExpenseSpecs.value?.subList(0, 1))
-                listAdapter.submitList(expenseViewModel.yearExpenseSpecs.value?.subList(0, 2))
+                listAdapter.submitList(expenseViewModel.expenseData.value?.subList(0, 1))
+                listAdapter.submitList(expenseViewModel.expenseData.value?.subList(0, 2))
             } catch (e: IndexOutOfBoundsException) {
                 e.printStackTrace()
             }
@@ -216,13 +226,13 @@ class ExpenseFragment : Fragment() {
             binding.moreLessImg.setOnClickListener {
 
                 if (binding.expenseBarChart.visibility == View.VISIBLE) {
-                    listAdapter.submitList(expenseViewModel.yearExpenseSpecs.value)
+                    listAdapter.submitList(expenseViewModel.expenseData.value)
                     binding.expenseBarChart.visibility = View.GONE
                     binding.moreLessImg.setImageResource(R.drawable.ic_baseline_expand_less_24)
                 } else {
                     try {
                         listAdapter.submitList(
-                            expenseViewModel.yearExpenseSpecs.value?.subList(
+                            expenseViewModel.expenseData.value?.subList(
                                 0,
                                 2
                             )
@@ -238,7 +248,6 @@ class ExpenseFragment : Fragment() {
             }
 
         }
-
     }
 
     private fun monthInfo(listAdapter: IncomeListAdapter) {
@@ -262,13 +271,13 @@ class ExpenseFragment : Fragment() {
             )
         )
 
-        expenseViewModel.monthExpenseSpecs.observe(viewLifecycleOwner) {
+        /*expenseViewModel.expenseData.observe(viewLifecycleOwner) {
 
 
             try {
                 listAdapter.notifyDataSetChanged()
-                listAdapter.submitList(expenseViewModel.monthExpenseSpecs.value?.subList(0, 1))
-                listAdapter.submitList(expenseViewModel.monthExpenseSpecs.value?.subList(0, 2))
+                listAdapter.submitList(expenseViewModel.expenseData.value?.subList(0, 1))
+                listAdapter.submitList(expenseViewModel.expenseData.value?.subList(0, 2))
             } catch (e: IndexOutOfBoundsException) {
                 e.printStackTrace()
             }
@@ -277,13 +286,13 @@ class ExpenseFragment : Fragment() {
             binding.moreLessImg.setOnClickListener {
 
                 if (binding.expenseBarChart.visibility == View.VISIBLE) {
-                    listAdapter.submitList(expenseViewModel.monthExpenseSpecs.value)
+                    listAdapter.submitList(expenseViewModel.expenseData.value)
                     binding.expenseBarChart.visibility = View.GONE
                     binding.moreLessImg.setImageResource(R.drawable.ic_baseline_expand_less_24)
                 } else {
                     try {
                         listAdapter.submitList(
-                            expenseViewModel.monthExpenseSpecs.value?.subList(
+                            expenseViewModel.expenseData.value?.subList(
                                 0,
                                 2
                             )
@@ -298,7 +307,7 @@ class ExpenseFragment : Fragment() {
 
             }
 
-        }
+        }*/
 
 
     }
@@ -326,12 +335,12 @@ class ExpenseFragment : Fragment() {
             )
         )
 
-        expenseViewModel.weekExpenseSpecs.observe(viewLifecycleOwner) {
+        /*expenseViewModel.expenseData.observe(viewLifecycleOwner) {
 
             try {
                 listAdapter.notifyDataSetChanged()
-                listAdapter.submitList(expenseViewModel.weekExpenseSpecs.value?.subList(0, 1))
-                listAdapter.submitList(expenseViewModel.weekExpenseSpecs.value?.subList(0, 2))
+                listAdapter.submitList(expenseViewModel.expenseData.value?.subList(0, 1))
+                listAdapter.submitList(expenseViewModel.expenseData.value?.subList(0, 2))
 
 
             } catch (e: IndexOutOfBoundsException) {
@@ -342,12 +351,12 @@ class ExpenseFragment : Fragment() {
             binding.moreLessImg.setOnClickListener {
 
                 if (binding.expenseBarChart.visibility == View.VISIBLE) {
-                    listAdapter.submitList(expenseViewModel.weekExpenseSpecs.value)
+                    listAdapter.submitList(expenseViewModel.expenseData.value)
                     binding.expenseBarChart.visibility = View.GONE
                     binding.moreLessImg.setImageResource(R.drawable.ic_baseline_expand_less_24)
                 } else {
                     try {
-                        listAdapter.submitList(expenseViewModel.weekExpenseSpecs.value?.subList(0, 2))
+                        listAdapter.submitList(expenseViewModel.expenseData.value?.subList(0, 2))
                     } catch (e: IndexOutOfBoundsException) {
                         e.printStackTrace()
                     }
@@ -359,7 +368,7 @@ class ExpenseFragment : Fragment() {
 
             }
 
-        }
+        }*/
 
     }
 

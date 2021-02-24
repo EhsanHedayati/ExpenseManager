@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
 
         <variable
             name="expenseModel"
@@ -206,8 +207,22 @@
                 android:id="@+id/expense_barChart"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:visibility="@{!expenseModel.isListEmpty? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/more_less_layout" >
+
+            </com.github.mikephil.charting.charts.BarChart>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="مقادیری برای نمایش وجود ندارد"
+                android:textColor="@color/white"
+                android:visibility="@{expenseModel.isListEmpty? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/expense_barChart"
+                app:layout_constraintEnd_toEndOf="@+id/expense_barChart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/more_less_layout" />
 

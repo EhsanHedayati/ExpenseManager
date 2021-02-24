@@ -14,6 +14,7 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.mylab.expensemanager.Duration
 import com.mylab.expensemanager.IncomeListAdapter
 import com.mylab.expensemanager.R
 import com.mylab.expensemanager.databinding.FragmentIncomeBinding
@@ -56,14 +57,14 @@ class IncomeFragment : Fragment() {
         observeExpense(listAdapter)
 
         binding.weekButton.setOnClickListener {
-            incomeViewModel.dateType.value = 1
+            incomeViewModel.dateType.value = Duration.WEEK.value
             listAdapter.submitList(emptyList())
             weekInfo(listAdapter)
             getWeekChart()
         }
 
         binding.monthButton.setOnClickListener {
-            incomeViewModel.dateType.value = 2
+            incomeViewModel.dateType.value = Duration.MONTH.value
             listAdapter.submitList(emptyList())
             monthInfo(listAdapter)
             getMonthChart()
@@ -71,7 +72,7 @@ class IncomeFragment : Fragment() {
         }
 
         binding.yearButton.setOnClickListener {
-            incomeViewModel.dateType.value = 3
+            incomeViewModel.dateType.value = Duration.YEAR.value
             listAdapter.submitList(emptyList())
             yearInfo(listAdapter)
             getYearChart()
@@ -86,10 +87,11 @@ class IncomeFragment : Fragment() {
     }
 
     private fun getYearChart() {
-
+        binding.incomeBarChart.invalidate()
+        binding.incomeBarChart.clear()
         val barEntry = ArrayList<BarEntry>()
         val labelsName = ArrayList<String>()
-        incomeViewModel.yearChartData.observe(viewLifecycleOwner) {
+        incomeViewModel.chartData.observe(viewLifecycleOwner) {
             it.forEachIndexed { index, chartInfo ->
                 barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
                 labelsName.add(chartInfo.label)
@@ -120,9 +122,10 @@ class IncomeFragment : Fragment() {
     }
 
     private fun getMonthChart() {
+
         val barEntry = ArrayList<BarEntry>()
         val labelsName = ArrayList<String>()
-        incomeViewModel.monthChartData.observe(viewLifecycleOwner) {
+        incomeViewModel.chartData.observe(viewLifecycleOwner) {
             it.forEachIndexed { index, chartInfo ->
                 barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
                 labelsName.add(chartInfo.label)
@@ -152,9 +155,10 @@ class IncomeFragment : Fragment() {
     }
 
     private fun getWeekChart() {
+
         val barEntry = ArrayList<BarEntry>()
         val labelsName = ArrayList<String>()
-        incomeViewModel.weekChartData.observe(viewLifecycleOwner) {
+        incomeViewModel.chartData.observe(viewLifecycleOwner) {
             it.forEachIndexed { index, chartInfo ->
                 barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
                 labelsName.add(chartInfo.label)
