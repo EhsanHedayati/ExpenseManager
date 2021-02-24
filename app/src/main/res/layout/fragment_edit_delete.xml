@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -9,7 +10,120 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/income_background_shape"
         tools:context=".ui.EditDeleteFragment">
+
+        <EditText
+            android:id="@+id/edit_delete_title"
+            android:layout_width="211dp"
+            android:layout_height="75dp"
+            android:background="@drawable/main_backgroung_shape"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:text="ویرایش"
+            android:textColor="@color/title_color"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/delete_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_baseline_delete_forever_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/expense_title"
+            android:layout_width="270dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/main_backgroung_shape"
+            android:gravity="center"
+            android:textColor="@color/title_color"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_delete_title"
+            tools:text="عنوان" />
+
+        <EditText
+            android:id="@+id/expense_amount"
+            android:layout_width="270dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/main_backgroung_shape"
+            android:gravity="center"
+            android:textColor="@color/title_color"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expense_title"
+            tools:text="مبلغ" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/expense_date"
+            android:layout_width="270dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/main_backgroung_shape"
+            android:gravity="center"
+            android:textColor="@color/title_color"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expense_amount"
+            tools:text="تاریخ" />
+
+        <EditText
+            android:id="@+id/expense_desc"
+            android:layout_width="270dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/main_backgroung_shape"
+            android:gravity="center"
+            android:textColor="@color/title_color"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expense_date"
+            tools:text="توضیحات" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/edit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/button_shape"
+            android:text="ویرایش"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expense_desc" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="حذف"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/delete_button"
+            app:layout_constraintStart_toStartOf="@+id/delete_button"
+            app:layout_constraintTop_toBottomOf="@+id/delete_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

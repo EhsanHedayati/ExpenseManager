@@ -52,6 +52,11 @@ class MainFragment : Fragment() {
         binding.view2.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_expenseFragment)
         }
+
+        binding.view3.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_settingFragment)
+
+        }
         binding.view4.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_detailsFragment)
         }

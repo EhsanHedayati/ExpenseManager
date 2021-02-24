@@ -10,15 +10,46 @@ class ExpenseRepository(private val expenseDao: ExpenseDao) {
     val expenseSpecCount: LiveData<List<ExpenseSpec>> = expenseDao.expenseSpecCount()
     val readAllIncomeSpec: LiveData<List<ExpenseSpec>> = expenseDao.readAllIncomeSpec()
     val readAllExpenseSpec: LiveData<List<ExpenseSpec>> = expenseDao.readAllExpenseSpec()
+    val readAllExpense: LiveData<List<Expense>> = expenseDao.readAllExpense()
     val fillIncomeSpinner: LiveData<List<ExpenseSpec>> = expenseDao.fillIncomeSpinner()
     val fillExpenseSpinner: LiveData<List<ExpenseSpec>> = expenseDao.fillExpenseSpinner()
     val totalLiveIncome: LiveData<Long> = expenseDao.totalLiveIncome()
     val totalLiveExpense: LiveData<Long> = expenseDao.totalLiveExpense()
 
 
-    suspend fun provideTitle(startDate: Long, endDate: Long): List<String> {
-        return expenseDao.provideTitle(startDate, endDate)
+    fun updateExpense(expense: Expense) {
+        expenseDao.updateExpense(expense)
+    }
 
+
+    suspend fun deleteExpense(title: String) {
+        expenseDao.deleteExpense(title)
+    }
+
+
+    suspend fun deleteExpenseSpec(title: String) {
+        expenseDao.deleteExpenseSpec(title)
+    }
+
+
+    suspend fun takeImageFromSpec(title: String): Int {
+        return expenseDao.takeImageFromSpec(title)
+    }
+
+
+    suspend fun existenceExpenseSpec(title: String): ExpenseSpec {
+        return expenseDao.existenceExpenseSpec(title)
+    }
+
+
+    suspend fun detailsQuery(
+        title: String,
+        startDate: Long,
+        endDate: Long,
+        amountType: Int
+    ): List<Expense> {
+
+        return expenseDao.detailsQuery(title, startDate, endDate, amountType)
     }
 
 
@@ -32,35 +63,19 @@ class ExpenseRepository(private val expenseDao: ExpenseDao) {
     }
 
 
-    fun incomeTitleList(): LiveData<List<String>> {
-        return expenseDao.incomeTitleList()
-
-    }
-
-
     suspend fun insertExpense(expense: Expense) {
         expenseDao.insertExpense(expense)
 
+    }
+
+    suspend fun insertExpenseSpec(expenseSpec: ExpenseSpec) {
+        expenseDao.insertExpenseSpec(expenseSpec)
     }
 
     suspend fun insertAllExpenseSpec(objects: List<ExpenseSpec>) {
         expenseDao.insertAllExpenseSpec(objects)
     }
 
-    /*fun totalLiveIncome(): LiveData<Long> {
-
-        return expenseDao.totalLiveIncome()
-    }
-
-    fun totalLiveExpense(): LiveData<Long> {
-        return expenseDao.totalLiveExpense()
-    }*/
-
-
-    suspend fun updateExpense(expense: Expense) {
-        expenseDao.updateExpense(expense)
-
-    }
 
     suspend fun deleteExpense(expense: Expense) {
         expenseDao.deleteExpense(expense)

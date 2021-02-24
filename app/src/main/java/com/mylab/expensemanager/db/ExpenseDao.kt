@@ -12,8 +12,20 @@ interface ExpenseDao {
     @Insert
     suspend fun insertExpense(expense: Expense)
 
-    @Update
-    suspend fun updateExpense(expense: Expense)
+    @Query("SELECT * FROM expense_spec_table WHERE title = :title")
+    suspend fun existenceExpenseSpec(title: String): ExpenseSpec
+
+    @Query("DELETE FROM expense_spec_table WHERE title = :title")
+    suspend fun deleteExpenseSpec(title: String)
+
+    @Query("DELETE FROM expense_table WHERE title = :title")
+    suspend fun deleteExpense(title: String)
+
+    @Insert
+    suspend fun insertExpenseSpec(expenseSpec: ExpenseSpec)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateExpense(expense: Expense)
 
     @Delete
     suspend fun deleteExpense(expense: Expense)
@@ -72,8 +84,8 @@ interface ExpenseDao {
     @JvmSuppressWildcards
     suspend fun insertAllExpenseSpec(objects: List<ExpenseSpec>)
 
-    /*@Query("SELECT * FROM expense_table WHERE date BETWEEN :startDate AND :endDate AND amountType = 1")
-    fun weekIncomeList(startDate: Long, endDate: Long): LiveData<List<Expense>>*/
+    @Query("SELECT * FROM expense_table WHERE date BETWEEN :startDate AND :endDate AND amountType = 1")
+    fun weekIncomeList(startDate: Long, endDate: Long): LiveData<List<Expense>>
 
     @Query("SELECT title FROM expense_spec_table WHERE expenseType = 1")
     fun incomeTitleList(): LiveData<List<String>>
@@ -87,8 +99,16 @@ interface ExpenseDao {
     @Query("SELECT title FROM expense_table WHERE date BETWEEN :startDate AND :endDate")
     suspend fun provideTitle(startDate: Long, endDate: Long): List<String>
 
+    @Query("SELECT * FROM expense_table WHERE title = :title AND date BETWEEN :startDate AND :endDate AND amountType = :amountType")
+    suspend fun detailsQuery(
+        title: String,
+        startDate: Long,
+        endDate: Long,
+        amountType: Int
+    ): List<Expense>
 
-
+    @Query("SELECT image FROM expense_spec_table WHERE title = :title")
+    suspend fun takeImageFromSpec(title: String): Int
 
 
 }

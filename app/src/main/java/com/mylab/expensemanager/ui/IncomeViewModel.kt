@@ -8,6 +8,8 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.ChartData
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar
 import com.mylab.expensemanager.datamodel.ChartInfo
+import com.mylab.expensemanager.datamodel.DetailsData
+import com.mylab.expensemanager.datamodel.Expense
 import com.mylab.expensemanager.datamodel.ExpenseSpec
 import com.mylab.expensemanager.db.ExpenseRepository
 import com.mylab.expensemanager.util.firsDayOfMonth
@@ -96,7 +98,8 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
         isListEmpty.addSource(expense){
             isListEmpty.value = it.isNullOrEmpty()
         }
-        yearExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
+
+        /*yearExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
             addYearDataToSpec(it)
 
         }
@@ -105,7 +108,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                 addYearDataToSpec(it)
             }
 
-        }
+        }*/
 
         weekChartData.addSource(expenseRepository.readAllIncomeSpec) {
             getWeekChartInfo(it)
@@ -269,6 +272,8 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
 
     }
+
+
 
     private fun addWeekDataToSpec(it: List<ExpenseSpec>) {
 

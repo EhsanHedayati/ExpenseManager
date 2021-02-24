@@ -9,9 +9,10 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
 
-    viewModel { DeleteIncomeExpenseViewModel() }
+    viewModel { DeleteIncomeExpenseViewModel(get()) }
+    viewModel { AddIncomeExpenseViewModel(get()) }
     viewModel { DetailsViewModel(get()) }
-    viewModel { EditDeleteViewModel() }
+    viewModel { EditDeleteViewModel(get()) }
     viewModel { ExpenseEntryViewModel(get()) }
     viewModel { ExpenseViewModel(get()) }
     viewModel { ExtraIncomeExpenseViewModel() }

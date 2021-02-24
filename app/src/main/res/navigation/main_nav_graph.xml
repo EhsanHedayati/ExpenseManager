@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
     app:startDestination="@id/mainFragment">
     <fragment
         android:id="@+id/mainFragment"
@@ -15,6 +17,9 @@
         <action
             android:id="@+id/action_mainFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
     </fragment>
     <fragment
         android:id="@+id/incomeFragment"
@@ -51,5 +56,36 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.mylab.expensemanager.ui.DetailsFragment"
-        android:label="DetailsFragment" />
+        android:label="DetailsFragment" >
+        <action
+            android:id="@+id/action_detailsFragment_to_editDeleteFragment"
+            app:destination="@id/editDeleteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.mylab.expensemanager.ui.SettingFragment"
+        android:label="SettingFragment" >
+        <action
+            android:id="@+id/action_settingFragment_to_addIncomeExpenseFragment"
+            app:destination="@id/addIncomeExpenseFragment" />
+        <action
+            android:id="@+id/action_settingFragment_to_deleteIncomeExpenseFragment"
+            app:destination="@id/deleteIncomeExpenseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deleteIncomeExpenseFragment"
+        android:name="com.mylab.expensemanager.ui.DeleteIncomeExpenseFragment"
+        android:label="DeleteIncomeExpenseFragment" />
+    <fragment
+        android:id="@+id/addIncomeExpenseFragment"
+        android:name="com.mylab.expensemanager.ui.AddIncomeExpenseFragment"
+        android:label="fragment_add_income_expense"
+        tools:layout="@layout/fragment_add_income_expense" />
+    <fragment
+        android:id="@+id/editDeleteFragment"
+        android:name="com.mylab.expensemanager.ui.EditDeleteFragment"
+        android:label="EditDeleteFragment" >
+        <argument android:name="details_data"
+            app:argType="com.mylab.expensemanager.datamodel.DetailsData" />
+    </fragment>
 </navigation>

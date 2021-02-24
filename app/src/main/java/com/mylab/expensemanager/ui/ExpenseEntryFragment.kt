@@ -1,23 +1,20 @@
 package com.mylab.expensemanager.ui
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.alirezaafkar.sundatepicker.DatePicker
-import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog
-import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar
 import com.mylab.expensemanager.IncomeExpenseTitleAdapter
 import com.mylab.expensemanager.databinding.FragmentExpenseEntryBinding
 import com.mylab.expensemanager.datamodel.Expense
 import com.mylab.expensemanager.datamodel.ExpenseSpec
-import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
+import java.util.*
 
 class ExpenseEntryFragment : Fragment() {
 
@@ -47,24 +44,28 @@ class ExpenseEntryFragment : Fragment() {
         }
 
         binding.dateExpenseEntry.setOnClickListener {
+            val minDate: Calendar = Calendar.getInstance()
+            val maxDate: Calendar = Calendar.getInstance()
+            maxDate.set(Calendar.YEAR, maxDate.get(Calendar.YEAR) + 10)
+            minDate.set(Calendar.YEAR, minDate.get(Calendar.YEAR) - 10)
 
+
+            val currentCalendar = Calendar.getInstance()
+//            currentCalendar.time = your long
             activity?.let { it1 ->
                 object : DatePicker.Builder() {}
                     .id(1)
-                    .minDate(1390, 1, 1)
-                    .maxDate(1420, 1, 1)
-                    .date(1, 1, 1399)
+                    .minDate(minDate)
+                    .maxDate(maxDate)
+                    .date(currentCalendar)
                     .build { id, calendar, day, month, year ->
 
                         //binding.dateExpenseEntry.text = "$year / $month / $day"
                         dateMillie = calendar?.timeInMillis
-                        binding.dateExpenseEntry.setText("$year / $month / $day")
-
-
+                        binding.dateExpenseEntry.text = "$year / $month / $day"
 
                     }
                     .show(it1.supportFragmentManager, "")
-
             }
 
 
@@ -88,6 +89,7 @@ class ExpenseEntryFragment : Fragment() {
                 }
 
             }
+
 
         binding.expenseEntryButton.setOnClickListener {
 

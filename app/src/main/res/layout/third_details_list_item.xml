@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="detailsData"
+            type="com.mylab.expensemanager.datamodel.DetailsData" />
+        <variable
+            name="utils"
+            type="com.mylab.expensemanager.util.Utils" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:layout_margin="10dp"
+        >
+
+        <TextView
+            android:id="@+id/list_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="@{@string/details_title(detailsData.title)}"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/list_item_circle"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="ارتباطات" />
+
+        <TextView
+            android:id="@+id/list_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="@{@string/details_price(Long.toString(detailsData.amount))}"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/list_item_circle"
+            app:layout_constraintTop_toBottomOf="@+id/list_item_title"
+            tools:text="4800000000" />
+
+        <TextView
+            android:id="@+id/list_item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:text="@{@string/details_date(utils.INSTANCE.getPersianDate(detailsData.date))}"
+            android:padding="3dp"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/list_item_circle"
+            app:layout_constraintTop_toBottomOf="@+id/list_item_price"
+            tools:text="1399/11/27" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+
+            android:id="@+id/list_item_circle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            app:ImageSrc="@{detailsData.image}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/list_item_title" />
+
+        <TextView
+            android:id="@+id/list_item_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="ویرایش"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"
+            app:drawableStartCompat="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@+id/list_item_date"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

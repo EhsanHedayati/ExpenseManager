@@ -1,14 +1,14 @@
 package com.mylab.expensemanager.util
 
-import android.R.string
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.databinding.BindingAdapter
+import de.hdodenhof.circleimageview.CircleImageView
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.chrono.PersianChronologyKhayyam
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -46,7 +46,7 @@ fun firsDayOfYear(): Long {
 
 fun firsDayOfWeek(): Long {
     val dateTime: DateTime = getTodayDateTime()
-    val firstWeek = dateTime.minusDays(dateTime.dayOfWeek-1)
+    val firstWeek = dateTime.minusDays(dateTime.dayOfWeek - 1)
     return firstWeek.millis
 }
 
@@ -70,4 +70,9 @@ fun getTodayDateTime(): DateTime {
     val date = Date()
     val dateTime = DateTime(date.time, perChr)
     return dateTime
+}
+
+@BindingAdapter("ImageSrc")
+fun CircleImageView.setIntSource(resource: Int) {
+    this.setImageResource(resource)
 }
