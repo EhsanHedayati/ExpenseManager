@@ -9,6 +9,9 @@ import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar
 import com.mylab.expensemanager.datamodel.ChartInfo
 import com.mylab.expensemanager.datamodel.ExpenseSpec
 import com.mylab.expensemanager.db.ExpenseRepository
+import com.mylab.expensemanager.util.firsDayOfMonth
+import com.mylab.expensemanager.util.firsDayOfWeek
+import com.mylab.expensemanager.util.firsDayOfYear
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -257,14 +260,14 @@ class ExpenseViewModel(private val expenseRepository: ExpenseRepository) : ViewM
     }
 
 
-    private fun oneYearAgo(): Long {
+    /*private fun oneYearAgo(): Long {
         val cal = Calendar.getInstance()
         cal.add(Calendar.YEAR, -1)
         return cal.timeInMillis
-    }
+    }*/
 
     private suspend fun yearExpense(
-        startDate: Long = oneYearAgo(),
+        startDate: Long = firsDayOfYear(),
         endDate: Long = Date().time
 
     ): Long? {
@@ -273,20 +276,20 @@ class ExpenseViewModel(private val expenseRepository: ExpenseRepository) : ViewM
 
     private suspend fun yearParametric(
         title: String,
-        startDate: Long = oneYearAgo(),
+        startDate: Long = firsDayOfYear(),
         endDate: Long = Date().time
     ): Long {
         return expenseRepository.weekExpenseParametric(title, startDate, endDate)
     }
 
-    private fun oneMonthAgo(): Long {
+    /*private fun oneMonthAgo(): Long {
         val cal = Calendar.getInstance()
         cal.add(Calendar.MONTH, -1)
         return cal.timeInMillis
-    }
+    }*/
 
     private suspend fun monthExpense(
-        startDate: Long = oneMonthAgo(),
+        startDate: Long = firsDayOfMonth(),
         endDate: Long = Date().time
     ): Long? {
         return expenseRepository.weekExpense(startDate, endDate)
@@ -294,21 +297,20 @@ class ExpenseViewModel(private val expenseRepository: ExpenseRepository) : ViewM
 
     private suspend fun monthParametric(
         title: String,
-        startDate: Long = oneMonthAgo(),
+        startDate: Long = firsDayOfMonth(),
         endDate: Long = Date().time
     ): Long {
         return expenseRepository.weekExpenseParametric(title, startDate, endDate)
     }
 
-    private fun oneWeekAgo(): Long {
+    /*private fun oneWeekAgo(): Long {
         val cal = Calendar.getInstance()
         cal.add(Calendar.WEEK_OF_MONTH, -1)
         return cal.timeInMillis
-
-    }
+    }*/
 
     private suspend fun weekExpense(
-        startDate: Long = oneWeekAgo(),
+        startDate: Long = firsDayOfWeek(),
         endDate: Long = Date().time
     ): Long? {
         return expenseRepository.weekExpense(startDate, endDate)
@@ -316,7 +318,7 @@ class ExpenseViewModel(private val expenseRepository: ExpenseRepository) : ViewM
 
     private suspend fun weekParametric(
         title: String,
-        startDate: Long = oneWeekAgo(),
+        startDate: Long = firsDayOfWeek(),
         endDate: Long = Date().time
     ): Long {
 

@@ -36,7 +36,6 @@ class DetailsViewModel(private val expenseRepository: ExpenseRepository) : ViewM
     }
 
 
-
     fun incomeChecked() {
         amountType.value = 1
     }

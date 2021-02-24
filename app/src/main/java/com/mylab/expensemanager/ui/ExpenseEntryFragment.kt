@@ -68,7 +68,6 @@ class ExpenseEntryFragment : Fragment() {
                     .show(it1.supportFragmentManager, "")
             }
 
-
         }
 
         binding.expenseEntrySpinner.onItemSelectedListener =

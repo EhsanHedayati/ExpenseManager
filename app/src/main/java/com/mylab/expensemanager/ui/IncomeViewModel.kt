@@ -305,11 +305,11 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
     }
 
 
-    private fun oneYearAgo(): Long {
+    /*private fun oneYearAgo(): Long {
         val cal = Calendar.getInstance()
         cal.add(Calendar.YEAR, -1)
         return cal.timeInMillis
-    }
+    }*/
 
     private suspend fun yearIncome(
         startDate: Long = firsDayOfYear(),
@@ -322,16 +322,16 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
     private suspend fun yearParametric(
         title: String,
-        startDate: Long = oneYearAgo(),
+        startDate: Long = firsDayOfYear(),
         endDate: Long = Date().time
     ): Long {
         return expenseRepository.weekParametric(title, startDate, endDate)
     }
 
 
-    private fun oneMonthAgo(): Long {
+/*    private fun oneMonthAgo(): Long {
         return firsDayOfMonth()
-    }
+    }*/
 
 
     private suspend fun monthIncome(
@@ -353,12 +353,12 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
     }
 
 
-    private fun oneWeekAgo(): Long {
+    /*private fun oneWeekAgo(): Long {
         val cal = Calendar.getInstance()
         cal.add(Calendar.WEEK_OF_MONTH, -1)
         return cal.timeInMillis
 
-    }
+    }*/
 
     //Date().time - 7 * 24 * 60 * 60 * 1000
     private suspend fun weekIncome(
@@ -372,7 +372,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
     private suspend fun weekParametric(
         title: String,
-        startDate: Long = Date().time - 7 * 24 * 60 * 60 * 1000,
+        startDate: Long = firsDayOfWeek(),
         endDate: Long = Date().time
     ): Long {
 

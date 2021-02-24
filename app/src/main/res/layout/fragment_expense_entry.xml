@@ -16,8 +16,8 @@
 
         <Spinner
             android:id="@+id/expense_entry_spinner"
-            android:layout_width="283dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:background="@null"
@@ -47,8 +47,10 @@
 
         <EditText
             android:id="@+id/expense_entry_amount"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/edit_text_shape"
             android:ems="10"
             android:hint="مبلغ هزینه"
@@ -64,16 +66,18 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/date_expense_entry"
-            android:layout_width="283dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/edit_text_shape"
             android:ems="10"
-            android:hint="تاریخ هزینه"
-            android:textSize="18sp"
             android:gravity="fill_horizontal"
+            android:hint="تاریخ هزینه"
             android:padding="10dp"
             android:textColor="@color/title_color"
             android:textColorHint="@color/title_color"
+            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/expense_entry_desc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -82,8 +86,10 @@
 
         <EditText
             android:id="@+id/expense_entry_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="96dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/edit_text_shape"
             android:ems="10"
             android:gravity="top"
@@ -101,7 +107,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/expense_entry_button"
             android:layout_width="195dp"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:layout_marginBottom="72dp"
             android:background="@drawable/button_shape"
             android:text="ذخیره"

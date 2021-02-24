@@ -40,6 +40,7 @@ class IncomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.incomeRegisterButton.setOnClickListener {
             findNavController().navigate(
                 IncomeFragmentDirections.actionIncomeFragmentToIncomeEntryFragment(1)
@@ -220,6 +221,7 @@ class IncomeFragment : Fragment() {
         }
 
     }
+
     private fun yearInfo(listAdapter: IncomeListAdapter) {
 
         binding.yearButton.background =
