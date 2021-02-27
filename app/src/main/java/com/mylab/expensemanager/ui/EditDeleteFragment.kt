@@ -119,9 +119,9 @@ class EditDeleteFragment : Fragment() {
             val amountType = receivedDetails.amountType
             val expense = Expense(id, title, amount, date, desc, amountType)
 
-            editDeleteViewModel.deleteExpense(expense)
-            Toast.makeText(requireContext(), "با موفقیت حذف گردید", Toast.LENGTH_SHORT).show()
-            findNavController().navigateUp()
+            findNavController().navigate(EditDeleteFragmentDirections.actionEditDeleteFragmentToRoundedDialog(expense))
+
+
         }
 
 

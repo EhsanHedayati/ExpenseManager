@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/income_background_shape"
+        tools:context=".ui.StartFragment">
+
+
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_width="411dp"
+            android:layout_height="59dp"
+            android:layout_marginTop="136dp"
+            android:gravity="center"
+            android:text="مدیریت هزینه فرهان حساب"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="farhan_hesab"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:drawableLeftCompat="@drawable/ic_icon_telegram"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/start_button"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="64dp"
+            android:background="@drawable/button_shape"
+            android:backgroundTint="#32B6A2"
+            android:text="شروع"
+            android:textSize="18sp"
+            android:textColor="#4C5EBF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

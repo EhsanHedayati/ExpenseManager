@@ -37,12 +37,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
     val expense = MediatorLiveData<MutableList<ExpenseSpec>>()
     val chartData = MediatorLiveData<MutableList<ChartInfo>>()
-    val weekExpenseSpecs = MediatorLiveData<MutableList<ExpenseSpec>>()
-    val monthExpenseSpecs = MediatorLiveData<MutableList<ExpenseSpec>>()
-    val yearExpenseSpecs = MediatorLiveData<MutableList<ExpenseSpec>>()
-    val weekChartData = MediatorLiveData<MutableList<ChartInfo>>()
-    val monthChartData = MediatorLiveData<MutableList<ChartInfo>>()
-    val yearChartData = MediatorLiveData<MutableList<ChartInfo>>()
     val isListEmpty = MediatorLiveData<Boolean>()
     val dateType = MutableLiveData(Duration.WEEK.value)//1 week , 2 month, 3 year
 
@@ -52,14 +46,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
         balance.addSource(onLineExpense, this::onChanged)
 
 
-//        weekExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
-//            addWeekDataToSpec(it)
-//        }
-//        weekExpenseSpecs.addSource(expenseRepository.totalLiveIncome) {
-//            expenseRepository.readAllIncomeSpec.value?.let {
-//                addWeekDataToSpec(it)
-//            }
-//        }
 
         expense.addSource(expenseRepository.totalLiveIncome) {
             expenseRepository.readAllIncomeSpec.value?.let {
@@ -128,54 +114,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
 
         }
-//        monthExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
-//            addMonthDataToSpec(it)
-//        }
-//        monthExpenseSpecs.addSource(expenseRepository.totalLiveIncome) {
-//            expenseRepository.readAllIncomeSpec.value?.let {
-//                addMonthDataToSpec(it)
-//            }
-//        }
-
-
-        /*yearExpenseSpecs.addSource(expenseRepository.readAllIncomeSpec) {
-            addYearDataToSpec(it)
-
-        }
-        yearExpenseSpecs.addSource(expenseRepository.totalLiveIncome) {
-            expenseRepository.readAllIncomeSpec.value?.let {
-                addYearDataToSpec(it)
-            }
-
-        }*/
-
-        /*weekChartData.addSource(expenseRepository.readAllIncomeSpec) {
-            getWeekChartInfo(it)
-        }
-        weekChartData.addSource(expenseRepository.totalLiveIncome) {
-            expenseRepository.readAllIncomeSpec.value?.let {
-                getWeekChartInfo(it)
-            }
-        }
-
-        monthChartData.addSource(expenseRepository.readAllIncomeSpec) {
-            getMonthChartInfo(it)
-        }
-        monthChartData.addSource(expenseRepository.totalLiveIncome) {
-            expenseRepository.readAllIncomeSpec.value?.let {
-                getMonthChartInfo(it)
-            }
-        }
-
-        yearChartData.addSource(expenseRepository.readAllIncomeSpec) {
-            getYearChartInfo(it)
-        }
-        yearChartData.addSource(expenseRepository.totalLiveIncome) {
-            expenseRepository.readAllIncomeSpec.value?.let {
-                getYearChartInfo(it)
-            }
-        }*/
-
 
     }
 
@@ -342,12 +280,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
     }
 
 
-    /*private fun oneYearAgo(): Long {
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.YEAR, -1)
-        return cal.timeInMillis
-    }*/
-
     private suspend fun yearIncome(
         startDate: Long = firsDayOfYear(),
         endDate: Long = Date().time
@@ -364,11 +296,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
     ): Long {
         return expenseRepository.weekParametric(title, startDate, endDate)
     }
-
-
-/*    private fun oneMonthAgo(): Long {
-        return firsDayOfMonth()
-    }*/
 
 
     private suspend fun monthIncome(
@@ -390,14 +317,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
     }
 
 
-    /*private fun oneWeekAgo(): Long {
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.WEEK_OF_MONTH, -1)
-        return cal.timeInMillis
-
-    }*/
-
-    //Date().time - 7 * 24 * 60 * 60 * 1000
     private suspend fun weekIncome(
         startDate: Long = firsDayOfWeek(),
         endDate: Long = Date().time

@@ -46,15 +46,10 @@ class DeleteIncomeExpenseFragment : Fragment() {
                 deleteIncomeExpenseViewModel.expenseSpec.observe(viewLifecycleOwner) {
                     try {
                         if (it.title == title) {
-                            deleteIncomeExpenseViewModel.deleteExpenseSpec(title)
-                            deleteIncomeExpenseViewModel.deleteExpense(title)
-                            Toast.makeText(
-                                requireContext(),
-                                "با موفقیت حذف گردید",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            findNavController().navigateUp()
+                            /*deleteIncomeExpenseViewModel.deleteExpenseSpec(title)
+                            deleteIncomeExpenseViewModel.deleteExpense(title)*/
+                            findNavController().navigate(DeleteIncomeExpenseFragmentDirections.actionDeleteIncomeExpenseFragmentToRoundedDialogTwo(title))
+
                         }
 
                     } catch (e: NullPointerException) {

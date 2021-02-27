@@ -1,6 +1,7 @@
 package com.mylab.expensemanager.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,10 @@ import com.mylab.expensemanager.datamodel.ExpenseSpec
 import org.koin.android.ext.android.inject
 
 
+private const val TAG = "AddIncomeExpenseFragmen"
+
 class AddIncomeExpenseFragment : Fragment() {
+
 
     lateinit var binding: FragmentAddIncomeExpenseBinding
     private val addExpenseIncomeViewModel: AddIncomeExpenseViewModel by inject()
@@ -46,11 +50,28 @@ class AddIncomeExpenseFragment : Fragment() {
                 Toast.makeText(requireContext(), "عنوان گروه هزینه ای درج گردد", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
-            } else {
-                val expenseSpec = ExpenseSpec(0, expenseCost, image!!, expenseType, sum)
-                addExpenseIncomeViewModel.insertExpenseSpec(expenseSpec)
-                Toast.makeText(requireContext(), "با موفقیت اضافه گردید", Toast.LENGTH_SHORT).show()
-                findNavController().navigateUp()
+            }
+            addExpenseIncomeViewModel.existenceExpenseSpec(expenseCost)
+            addExpenseIncomeViewModel.expenseSpec.observe(viewLifecycleOwner) {
+                Log.i(TAG, "onViewCreated: $it")
+
+                if (it == null) {
+                    val expenseSpec = ExpenseSpec(0, expenseCost, image!!, expenseType, sum)
+                    addExpenseIncomeViewModel.insertExpenseSpec(expenseSpec)
+                    Toast.makeText(
+                        requireContext(),
+                        "با موفقیت اضافه گردید",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    findNavController().navigateUp()
+
+                } else {
+                    Toast.makeText(
+                        context,
+                        "گروه هزینه ای با این عنوان وجود دارد",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
             }
 
@@ -61,16 +82,30 @@ class AddIncomeExpenseFragment : Fragment() {
             val expenseType = 1
             val sum = 0L
             val image = selectedIncome
-            if (incomeCost.isNullOrEmpty()){
-                Toast.makeText(requireContext(), "عنوان گروه درآمدی درج گردد", Toast.LENGTH_SHORT).show()
+            if (incomeCost.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), "عنوان گروه درآمدی درج گردد", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
-            }else{
-                val expenseSpec = ExpenseSpec(0, incomeCost, image!!, expenseType, sum)
-                addExpenseIncomeViewModel.insertExpenseSpec(expenseSpec)
-                Toast.makeText(requireContext(), "با موفقیت اضافه گردید", Toast.LENGTH_SHORT).show()
-                findNavController().navigateUp()
             }
+            addExpenseIncomeViewModel.existenceExpenseSpec(incomeCost)
+            addExpenseIncomeViewModel.expenseSpec.observe(viewLifecycleOwner) {
+                if (it == null) {
+                    val expenseSpec = ExpenseSpec(0, incomeCost, image!!, expenseType, sum)
+                    addExpenseIncomeViewModel.insertExpenseSpec(expenseSpec)
+                    Toast.makeText(requireContext(), "با موفقیت اضافه گردید", Toast.LENGTH_SHORT)
+                        .show()
+                    findNavController().navigateUp()
 
+                } else {
+                    Toast.makeText(
+                        context,
+                        "گروه درآمدی با این عنوان وجود دارد",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+
+            }
 
         }
 

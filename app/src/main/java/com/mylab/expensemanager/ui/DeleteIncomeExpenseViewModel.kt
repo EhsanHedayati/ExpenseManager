@@ -20,7 +20,7 @@ class DeleteIncomeExpenseViewModel(private val expenseRepository: ExpenseReposit
         }
     }
 
-    fun deleteExpenseSpec(title: String) {
+    /*fun deleteExpenseSpec(title: String) {
         viewModelScope.launch(Dispatchers.IO) {
             expenseRepository.deleteExpenseSpec(title)
         }
@@ -30,7 +30,7 @@ class DeleteIncomeExpenseViewModel(private val expenseRepository: ExpenseReposit
         viewModelScope.launch(Dispatchers.IO) {
             expenseRepository.deleteExpense(title)
         }
-    }
+    }*/
 
 
 }

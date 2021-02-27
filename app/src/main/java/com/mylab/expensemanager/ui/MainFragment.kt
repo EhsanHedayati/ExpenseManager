@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import com.mylab.expensemanager.R
 import com.mylab.expensemanager.databinding.FragmentMainBinding
@@ -36,9 +38,23 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.i(TAG, "onViewCreated: getToday "+ getToday())
-        Log.i(TAG, "onViewCreated: getPersianDate"+ getPersianDate(getToday()))
-        firsDayOfWeek()
+        binding.mainModel = mainViewModel
+        binding.lifecycleOwner = this
+
+
+
+
+        val callBack = object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToRoundedDialogThree())
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callBack)
+
+
+
+
         mainViewModel.expenseSpecCount.observe(viewLifecycleOwner) {
 
             if (it.isEmpty()) {
@@ -60,9 +76,6 @@ class MainFragment : Fragment() {
         binding.view4.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_detailsFragment)
         }
-
-        binding.mainModel = mainViewModel
-        binding.lifecycleOwner = this
 
 
     }

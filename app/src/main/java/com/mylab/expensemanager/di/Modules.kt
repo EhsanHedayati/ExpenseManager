@@ -20,6 +20,8 @@ val viewModelModule = module {
     viewModel { IncomeViewModel(get()) }
     viewModel { MainViewModel(get()) }
     viewModel { SettingViewModel() }
+    viewModel { RoundedDialogViewModel(get()) }
+    viewModel { RoundedDialogTwoViewModel(get()) }
 
 
 }

@@ -1,5 +1,6 @@
 package com.mylab.expensemanager.ui
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mylab.expensemanager.R
@@ -9,6 +10,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddIncomeExpenseViewModel(val expenseRepository: ExpenseRepository) : ViewModel() {
+
+    val expenseSpec = MutableLiveData<ExpenseSpec>()
 
 
     fun getExtraIncome(): List<Int> {
@@ -32,6 +35,13 @@ class AddIncomeExpenseViewModel(val expenseRepository: ExpenseRepository) : View
     fun insertExpenseSpec(expenseSpec: ExpenseSpec) {
         viewModelScope.launch(Dispatchers.IO) {
             expenseRepository.insertExpenseSpec(expenseSpec)
+        }
+    }
+
+    fun existenceExpenseSpec(title: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val receivedExpenseSpec = expenseRepository.existenceExpenseSpec(title)
+            expenseSpec.postValue(receivedExpenseSpec)
         }
     }
 }

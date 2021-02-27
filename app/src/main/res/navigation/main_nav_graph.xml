@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.mylab.expensemanager.ui.MainFragment"
@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_mainFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_roundedDialogThree"
+            app:destination="@id/roundedDialogThree" />
     </fragment>
     <fragment
         android:id="@+id/incomeFragment"
@@ -75,7 +78,11 @@
     <fragment
         android:id="@+id/deleteIncomeExpenseFragment"
         android:name="com.mylab.expensemanager.ui.DeleteIncomeExpenseFragment"
-        android:label="DeleteIncomeExpenseFragment" />
+        android:label="DeleteIncomeExpenseFragment" >
+        <action
+            android:id="@+id/action_deleteIncomeExpenseFragment_to_roundedDialogTwo"
+            app:destination="@id/roundedDialogTwo" />
+    </fragment>
     <fragment
         android:id="@+id/addIncomeExpenseFragment"
         android:name="com.mylab.expensemanager.ui.AddIncomeExpenseFragment"
@@ -87,5 +94,61 @@
         android:label="EditDeleteFragment" >
         <argument android:name="details_data"
             app:argType="com.mylab.expensemanager.datamodel.DetailsData" />
+        <action
+            android:id="@+id/action_editDeleteFragment_to_roundedDialog"
+            app:destination="@id/roundedDialog" />
     </fragment>
+    <dialog
+        android:id="@+id/roundedDialog"
+        android:name="com.mylab.expensemanager.ui.RoundedDialog"
+        android:label="RoundedDialog" >
+        <argument
+            android:name="expense"
+            app:argType="com.mylab.expensemanager.datamodel.Expense" />
+        <action
+            android:id="@+id/action_roundedDialog_to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </dialog>
+    <dialog
+        android:id="@+id/roundedDialogTwo"
+        android:name="com.mylab.expensemanager.ui.RoundedDialogTwo"
+        android:label="RoundedDialogTwo" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_roundedDialogTwo_to_settingFragment"
+            app:destination="@id/settingFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"
+            />
+        <action
+            android:id="@+id/action_roundedDialogTwo_to_deleteIncomeExpenseFragment"
+            app:destination="@id/deleteIncomeExpenseFragment" />
+
+    </dialog>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.mylab.expensemanager.ui.SplashFragment"
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_startFragment"
+            app:destination="@id/startFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.mylab.expensemanager.ui.StartFragment"
+        android:label="StartFragment" >
+        <action
+            android:id="@+id/action_startFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/roundedDialogThree"
+        android:name="com.mylab.expensemanager.ui.RoundedDialogThree"
+        android:label="RoundedDialogThree" />
 </navigation>

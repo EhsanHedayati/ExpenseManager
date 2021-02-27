@@ -13,12 +13,11 @@
         android:background="@drawable/income_background_shape"
         tools:context=".ui.EditDeleteFragment">
 
-        <EditText
+        <TextView
             android:id="@+id/edit_delete_title"
             android:layout_width="211dp"
-            android:layout_height="75dp"
-            android:background="@drawable/main_backgroung_shape"
-            android:layout_marginTop="24dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
             android:gravity="center"
             android:text="ویرایش"
@@ -38,12 +37,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/expense_title"
-            android:layout_width="270dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/main_backgroung_shape"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/edit_text_shape"
             android:gravity="center"
             android:textColor="@color/title_color"
             android:textSize="24sp"
@@ -55,10 +56,14 @@
 
         <EditText
             android:id="@+id/expense_amount"
-            android:layout_width="270dp"
-            android:layout_height="60dp"
+            android:layout_width="0dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/main_backgroung_shape"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/edit_text_shape"
             android:gravity="center"
             android:textColor="@color/title_color"
             android:textSize="24sp"
@@ -70,10 +75,12 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/expense_date"
-            android:layout_width="270dp"
-            android:layout_height="60dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/main_backgroung_shape"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/edit_text_shape"
             android:gravity="center"
             android:textColor="@color/title_color"
             android:textSize="24sp"
@@ -85,10 +92,14 @@
 
         <EditText
             android:id="@+id/expense_desc"
-            android:layout_width="270dp"
-            android:layout_height="96dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/main_backgroung_shape"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/edit_text_shape"
             android:gravity="center"
             android:textColor="@color/title_color"
             android:textSize="24sp"
@@ -100,10 +111,12 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/edit_button"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:background="@drawable/button_shape"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/edit_text_shape"
             android:text="ویرایش"
             android:textColor="@color/title_color"
             android:textSize="18sp"

@@ -4,5 +4,14 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="details_title">عنوان : %2s</string>
     <string name="details_price">مبلغ : %2s</string>
-    <string name="details_date">تاریخ : %2S</string>
+    <string name="details_date">تاریخ : %2s</string>
+    <string name="delete_message">حذف آیتم %2s</string>
+    <string name="confirm_message">آیا از حذف آیتم  %2s  مطمئن هستید ؟</string>
+
+    <string name="delete_message_item_expense">حذف گروه %2s</string>
+    <string name="delete_message_item_confirm">با حذف گروه %2s
+    تمامی مبالغ ثبت شده
+    برای این گروه حذف
+    خواهد شد. از حذف این گروه
+    مطمئن هستید ؟</string>
 </resources>

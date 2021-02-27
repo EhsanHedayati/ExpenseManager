@@ -11,4 +11,7 @@
     <color name="edit_border">#C5BDBD</color>
     <color name="navy_blue">#000e57</color>
     <color name="default_button_text">#4C5EBF</color>
+    <color name="button_background">#32B6A2</color>
+    <color name="bar_color">#4b4cbc</color>
+
 </resources>
