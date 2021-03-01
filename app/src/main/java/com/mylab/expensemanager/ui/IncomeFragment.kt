@@ -56,7 +56,8 @@ class IncomeFragment : Fragment() {
         val listAdapter = IncomeListAdapter()
         binding.incomeRecycler.adapter = listAdapter
 
-        weekInfo(listAdapter)
+
+        weekInfo()
         getWeekChart()
         observeExpense(listAdapter)
 
@@ -64,7 +65,7 @@ class IncomeFragment : Fragment() {
 
             incomeViewModel.dateType.value = Duration.WEEK.value
             listAdapter.submitList(emptyList())
-            weekInfo(listAdapter)
+            weekInfo()
             getWeekChart()
 
         }
@@ -73,7 +74,7 @@ class IncomeFragment : Fragment() {
 
             incomeViewModel.dateType.value = Duration.MONTH.value
             listAdapter.submitList(emptyList())
-            monthInfo(listAdapter)
+            monthInfo()
             getMonthChart()
 
         }
@@ -82,7 +83,7 @@ class IncomeFragment : Fragment() {
 
             incomeViewModel.dateType.value = Duration.YEAR.value
             listAdapter.submitList(emptyList())
-            yearInfo(listAdapter)
+            yearInfo()
             getYearChart()
 
 
@@ -95,12 +96,15 @@ class IncomeFragment : Fragment() {
         val barEntry = ArrayList<BarEntry>()
         val labelsName = ArrayList<String>()
         incomeViewModel.chartData.observe(viewLifecycleOwner) {
-            it.forEachIndexed { index, chartInfo ->
-                barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
-                labelsName.add(chartInfo.label)
-            }
+            if (!incomeViewModel.isChartDataObserved && incomeViewModel.dateType.value == Duration.YEAR.value) {
+                it.forEachIndexed { index, chartInfo ->
+                    barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
+                    labelsName.add(chartInfo.label)
+                }
 
-            chartSettings(barEntry, labelsName)
+
+                chartSettings(barEntry, labelsName)
+            }
 
         }
 
@@ -110,13 +114,26 @@ class IncomeFragment : Fragment() {
 
         val barEntry = ArrayList<BarEntry>()
         val labelsName = ArrayList<String>()
-        incomeViewModel.chartData.observe(viewLifecycleOwner) {
-            it.forEachIndexed { index, chartInfo ->
-                barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
-                labelsName.add(chartInfo.label)
-            }
+//        chartSettings(barEntry, labelsName)
+//
+//        binding.incomeBarChart.clear()
+//        binding.incomeBarChart.invalidate()
+//        binding.incomeBarChart.notifyDataSetChanged()
 
-            chartSettings(barEntry, labelsName)
+        incomeViewModel.chartData.observe(viewLifecycleOwner) {
+            Log.i(TAG, "getMonthChartMonth: $it")
+
+            if (!incomeViewModel.isChartDataObserved && incomeViewModel.dateType.value == Duration.MONTH.value) {
+
+                it.forEachIndexed { index, chartInfo ->
+                    barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
+                    labelsName.add(chartInfo.label)
+                    Log.i(TAG, "getMonthChartMonth: $it")
+                }
+
+
+                chartSettings(barEntry, labelsName)
+            }
 
         }
     }
@@ -125,14 +142,20 @@ class IncomeFragment : Fragment() {
 
         val barEntry = ArrayList<BarEntry>()
         val labelsName = ArrayList<String>()
+
         incomeViewModel.chartData.observe(viewLifecycleOwner) {
-            it.forEachIndexed { index, chartInfo ->
-                barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
-                labelsName.add(chartInfo.label)
+            if (!incomeViewModel.isChartDataObserved &&
+                incomeViewModel.dateType.value == Duration.WEEK.value) {
+                Log.i(TAG, "getWeekChart223: $it")
+                it.forEachIndexed { index, chartInfo ->
+                    barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
+                    labelsName.add(chartInfo.label)
+                    Log.i(TAG, "getWeekChart22: $it")
+                }
+
+                chartSettings(barEntry, labelsName)
+                incomeViewModel.isChartDataObserved = true
             }
-
-
-            chartSettings(barEntry, labelsName)
 
         }
 
@@ -144,8 +167,6 @@ class IncomeFragment : Fragment() {
         labelsName: ArrayList<String>
     ) {
 
-
-
         val tf = ResourcesCompat.getFont(requireContext(), R.font.vazir_medium)
         val barDataSet = BarDataSet(barEntry, "")
         barDataSet.color = ContextCompat.getColor(requireContext(), R.color.bar_color)
@@ -155,8 +176,6 @@ class IncomeFragment : Fragment() {
         val barData = BarData(barDataSet)
         barData.setValueTypeface(tf)
         binding.incomeBarChart.data = barData
-
-
 
         binding.incomeBarChart.description.text = ""
         val xAxis = binding.incomeBarChart.xAxis
@@ -183,7 +202,7 @@ class IncomeFragment : Fragment() {
 
     private fun observeExpense(listAdapter: IncomeListAdapter) {
         incomeViewModel.expense.observe(viewLifecycleOwner) {
-            Log.i(TAG, "observeExpense: $it")
+            //Log.i(TAG, "observeExpense: $it")
             try {
                 listAdapter.notifyDataSetChanged()
                 listAdapter.submitList(incomeViewModel.expense.value?.subList(0, 1))
@@ -219,7 +238,7 @@ class IncomeFragment : Fragment() {
 
     }
 
-    private fun yearInfo(listAdapter: IncomeListAdapter) {
+    private fun yearInfo() {
 
         binding.yearButton.background =
             ContextCompat.getDrawable(requireContext(), R.drawable.button_clicked_shape)
@@ -244,7 +263,7 @@ class IncomeFragment : Fragment() {
 
     }
 
-    private fun monthInfo(listAdapter: IncomeListAdapter) {
+    private fun monthInfo() {
         binding.monthButton.background =
             ContextCompat.getDrawable(requireContext(), R.drawable.button_clicked_shape)
         binding.weekButton.background =
@@ -268,7 +287,7 @@ class IncomeFragment : Fragment() {
 
     }
 
-    private fun weekInfo(listAdapter: IncomeListAdapter) {
+    private fun weekInfo() {
         binding.weekButton.background =
             ContextCompat.getDrawable(requireContext(), R.drawable.button_clicked_shape)
         binding.monthButton.background =

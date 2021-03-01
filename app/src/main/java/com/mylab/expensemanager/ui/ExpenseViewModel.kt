@@ -341,7 +341,7 @@ class ExpenseViewModel(private val expenseRepository: ExpenseRepository) : ViewM
     }*/
 
     private suspend fun yearExpense(
-        startDate: Long = firsDayOfYear(),
+        startDate: Long = firsDayOfYear() - 24 * 60 * 60 * 1000,
         endDate: Long = Date().time
 
     ): Long? {
@@ -350,20 +350,16 @@ class ExpenseViewModel(private val expenseRepository: ExpenseRepository) : ViewM
 
     private suspend fun yearParametric(
         title: String,
-        startDate: Long = firsDayOfYear(),
+        startDate: Long = firsDayOfYear() - 24 * 60 * 60 * 1000,
         endDate: Long = Date().time
     ): Long {
         return expenseRepository.weekExpenseParametric(title, startDate, endDate)
     }
 
-    /*private fun oneMonthAgo(): Long {
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.MONTH, -1)
-        return cal.timeInMillis
-    }*/
+
 
     private suspend fun monthExpense(
-        startDate: Long = firsDayOfMonth(),
+        startDate: Long = firsDayOfMonth() - 24 * 60 * 60 * 1000,
         endDate: Long = Date().time
     ): Long? {
         return expenseRepository.weekExpense(startDate, endDate)
@@ -371,20 +367,16 @@ class ExpenseViewModel(private val expenseRepository: ExpenseRepository) : ViewM
 
     private suspend fun monthParametric(
         title: String,
-        startDate: Long = firsDayOfMonth(),
+        startDate: Long = firsDayOfMonth() - 24 * 60 * 60 * 1000,
         endDate: Long = Date().time
     ): Long {
         return expenseRepository.weekExpenseParametric(title, startDate, endDate)
     }
 
-    /*private fun oneWeekAgo(): Long {
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.WEEK_OF_MONTH, -1)
-        return cal.timeInMillis
-    }*/
+
 
     private suspend fun weekExpense(
-        startDate: Long = firsDayOfWeek(),
+        startDate: Long = firsDayOfWeek() - 24 * 60 * 60 * 1000,
         endDate: Long = Date().time
     ): Long? {
         return expenseRepository.weekExpense(startDate, endDate)
@@ -392,7 +384,7 @@ class ExpenseViewModel(private val expenseRepository: ExpenseRepository) : ViewM
 
     private suspend fun weekParametric(
         title: String,
-        startDate: Long = firsDayOfWeek(),
+        startDate: Long = firsDayOfWeek() - 24 * 60 * 60 * 1000,
         endDate: Long = Date().time
     ): Long {
 

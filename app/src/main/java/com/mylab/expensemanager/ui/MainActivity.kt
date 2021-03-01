@@ -14,10 +14,5 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    /*override fun onBackPressed() {
-        //showing dialog
-        moveTaskToBack(true)
-    }*/
 
-
-    }
+}

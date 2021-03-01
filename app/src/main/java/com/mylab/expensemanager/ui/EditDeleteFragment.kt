@@ -38,7 +38,7 @@ class EditDeleteFragment : Fragment() {
 
         //binding.editDeleteTitle.setText(receivedDetails.title)
         receivedDetails.apply {
-            binding.expenseTitle.setText(title)
+            binding.expenseTitle.text = title
             binding.expenseAmount.setText(amount.toString())
             binding.expenseDate.text = Utils.getPersianDate(date)
             dateMillie = date

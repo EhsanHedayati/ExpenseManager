@@ -37,6 +37,8 @@ class RoundedDialogThree : DialogFragment() {
 
         binding.yesButton.setOnClickListener {
             activity?.finish()
+            findNavController().navigateUp()
+
 
         }
 
