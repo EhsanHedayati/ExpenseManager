@@ -15,6 +15,7 @@ import com.mylab.expensemanager.IncomeExpenseTitleAdapter
 import com.mylab.expensemanager.databinding.FragmentIncomeEntryBinding
 import com.mylab.expensemanager.datamodel.Expense
 import com.mylab.expensemanager.datamodel.ExpenseSpec
+import com.mylab.expensemanager.util.NumberTextWatcherForThousand
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import java.util.*
@@ -47,6 +48,7 @@ class IncomeEntryFragment : Fragment() {
 
         }
 
+        binding.incomeEntryAmount.addTextChangedListener(NumberTextWatcherForThousand(binding.incomeEntryAmount));
 
 
         binding.incomeEntryDate.setOnClickListener {
@@ -100,7 +102,7 @@ class IncomeEntryFragment : Fragment() {
 
         binding.incomeEntryButton.setOnClickListener {
 
-            val amount = binding.incomeEntryAmount.text.toString()
+            val amount = NumberTextWatcherForThousand.trimCommaOfString(binding.incomeEntryAmount.text.toString())
             val date = binding.incomeEntryDate.text.toString()
             var desc = binding.incomeEntryDesc.text.toString()
 

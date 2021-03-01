@@ -21,7 +21,6 @@ fun getPersianDate(date: String): Long {
         .withLocale(Locale.ROOT)
         .withChronology(perChr)
     val dt: DateTime = formatter.parseDateTime(date)
-    Log.i(TAG, "getPersianDate1: ${dt.toString()}")
     return dt.millis
 }
 
@@ -33,14 +32,12 @@ fun firsDayOfMonth(year: Int, month: Int): Long {
 fun firsDayOfMonth(): Long {
     val dateTime: DateTime = getTodayDateTime()
     val date = "${dateTime.year}-${dateTime.monthOfYear}-1"
-    Log.i(TAG, "firsDayOfMonth: $date")
     return getPersianDate(date)
 }
 
 fun firsDayOfYear(): Long {
     val dateTime: DateTime = getTodayDateTime()
     val date = "${dateTime.year}-1-1"
-    Log.i(TAG, "firsDayOfMonth: $date")
     return getPersianDate(date)
 }
 

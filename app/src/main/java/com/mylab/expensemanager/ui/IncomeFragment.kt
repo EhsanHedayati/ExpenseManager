@@ -21,6 +21,7 @@ import com.mylab.expensemanager.IncomeListAdapter
 import com.mylab.expensemanager.R
 import com.mylab.expensemanager.databinding.FragmentIncomeBinding
 import org.koin.android.ext.android.inject
+import java.lang.Exception
 
 
 private const val TAG = "IncomeFragment"
@@ -58,15 +59,14 @@ class IncomeFragment : Fragment() {
 
 
         weekInfo()
-        getWeekChart()
         observeExpense(listAdapter)
 
+        observeChartData()
         binding.weekButton.setOnClickListener {
 
             incomeViewModel.dateType.value = Duration.WEEK.value
             listAdapter.submitList(emptyList())
             weekInfo()
-            getWeekChart()
 
         }
 
@@ -75,7 +75,6 @@ class IncomeFragment : Fragment() {
             incomeViewModel.dateType.value = Duration.MONTH.value
             listAdapter.submitList(emptyList())
             monthInfo()
-            getMonthChart()
 
         }
 
@@ -84,19 +83,25 @@ class IncomeFragment : Fragment() {
             incomeViewModel.dateType.value = Duration.YEAR.value
             listAdapter.submitList(emptyList())
             yearInfo()
-            getYearChart()
 
 
         }
 
     }
 
-    private fun getYearChart() {
 
-        val barEntry = ArrayList<BarEntry>()
-        val labelsName = ArrayList<String>()
+    val barEntry = ArrayList<BarEntry>()
+    val labelsName = ArrayList<String>()
+
+    private fun observeChartData() {
+
         incomeViewModel.chartData.observe(viewLifecycleOwner) {
-            if (!incomeViewModel.isChartDataObserved && incomeViewModel.dateType.value == Duration.YEAR.value) {
+            barEntry.clear()
+            binding.incomeBarChart.invalidate()
+            binding.incomeBarChart.clear()
+
+            if (!incomeViewModel.isChartDataObserved) {
+
                 it.forEachIndexed { index, chartInfo ->
                     barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
                     labelsName.add(chartInfo.label)
@@ -105,62 +110,8 @@ class IncomeFragment : Fragment() {
 
                 chartSettings(barEntry, labelsName)
             }
-
-        }
-
-    }
-
-    private fun getMonthChart() {
-
-        val barEntry = ArrayList<BarEntry>()
-        val labelsName = ArrayList<String>()
-//        chartSettings(barEntry, labelsName)
-//
-//        binding.incomeBarChart.clear()
-//        binding.incomeBarChart.invalidate()
-//        binding.incomeBarChart.notifyDataSetChanged()
-
-        incomeViewModel.chartData.observe(viewLifecycleOwner) {
-            Log.i(TAG, "getMonthChartMonth: $it")
-
-            if (!incomeViewModel.isChartDataObserved && incomeViewModel.dateType.value == Duration.MONTH.value) {
-
-                it.forEachIndexed { index, chartInfo ->
-                    barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
-                    labelsName.add(chartInfo.label)
-                    Log.i(TAG, "getMonthChartMonth: $it")
-                }
-
-
-                chartSettings(barEntry, labelsName)
-            }
-
         }
     }
-
-    private fun getWeekChart() {
-
-        val barEntry = ArrayList<BarEntry>()
-        val labelsName = ArrayList<String>()
-
-        incomeViewModel.chartData.observe(viewLifecycleOwner) {
-            if (!incomeViewModel.isChartDataObserved &&
-                incomeViewModel.dateType.value == Duration.WEEK.value) {
-                Log.i(TAG, "getWeekChart223: $it")
-                it.forEachIndexed { index, chartInfo ->
-                    barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
-                    labelsName.add(chartInfo.label)
-                    Log.i(TAG, "getWeekChart22: $it")
-                }
-
-                chartSettings(barEntry, labelsName)
-                incomeViewModel.isChartDataObserved = true
-            }
-
-        }
-
-    }
-
 
     private fun chartSettings(
         barEntry: ArrayList<BarEntry>,
@@ -192,6 +143,8 @@ class IncomeFragment : Fragment() {
         xAxis.position = XAxis.XAxisPosition.TOP
         xAxis.setDrawAxisLine(false)
         xAxis.granularity = 1f
+        yAxisLeft.granularity = 1.0f;
+        yAxisLeft.setGranularityEnabled(true)
         xAxis.setDrawGridLines(false)
         yAxisLeft.setDrawGridLines(false)
         xAxis.labelCount = labelsName.size
@@ -202,7 +155,6 @@ class IncomeFragment : Fragment() {
 
     private fun observeExpense(listAdapter: IncomeListAdapter) {
         incomeViewModel.expense.observe(viewLifecycleOwner) {
-            //Log.i(TAG, "observeExpense: $it")
             try {
                 listAdapter.notifyDataSetChanged()
                 listAdapter.submitList(incomeViewModel.expense.value?.subList(0, 1))

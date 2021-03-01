@@ -14,6 +14,7 @@ class AddIncomeExpenseViewModel(val expenseRepository: ExpenseRepository) : View
     val expenseSpec = MutableLiveData<ExpenseSpec>()
 
 
+
     fun getExtraIncome(): List<Int> {
         val extraIncome = mutableListOf<Int>()
         extraIncome.add(R.drawable.ic_icon_business)

@@ -31,9 +31,8 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        object : CountDownTimer(3000, 1000) {
+        object : CountDownTimer(1000, 1000) {
             override fun onTick(counter: Long) {
-                Log.i(TAG, "onTick: $counter")
             }
 
             override fun onFinish() {

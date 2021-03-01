@@ -34,22 +34,33 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
     private val onLineIncome: LiveData<Long> = expenseRepository.totalLiveIncome
     private val onLineExpense: LiveData<Long> = expenseRepository.totalLiveExpense
-    val balance = MediatorLiveData<Long>()
 
-    val expense = MediatorLiveData<MutableList<ExpenseSpec>>()
+    private val _balance = MediatorLiveData<Long>()
+    val balance : LiveData<Long>
+    get() = _balance
+
+    private val _expense = MediatorLiveData<MutableList<ExpenseSpec>>()
+    val expense : LiveData<MutableList<ExpenseSpec>>
+    get() = _expense
+
+
     var isChartDataObserved = false
-    val chartData = MediatorLiveData<MutableList<ChartInfo>>()
+
+    private val _chartData = MediatorLiveData<MutableList<ChartInfo>>()
+    val chartData : LiveData<MutableList<ChartInfo>>
+    get() = _chartData
+
     val isListEmpty = MediatorLiveData<Boolean>()
     val dateType = MutableLiveData(Duration.WEEK.value)//1 week , 2 month, 3 year
 
 
     init {
-        balance.addSource(onLineIncome, this::onChanged)
-        balance.addSource(onLineExpense, this::onChanged)
+        _balance.addSource(onLineIncome, this::onChanged)
+        _balance.addSource(onLineExpense, this::onChanged)
 
 
 
-        expense.addSource(expenseRepository.totalLiveIncome) {
+        _expense.addSource(expenseRepository.totalLiveIncome) {
             expenseRepository.readAllIncomeSpec.value?.let {
                 when (dateType.value) {
                     Duration.WEEK.value -> addWeekDataToSpec(it)
@@ -59,7 +70,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
             }
         }
 
-        expense.addSource(dateType) {
+        _expense.addSource(dateType) {
             expenseRepository.readAllIncomeSpec.value?.let {
                 when (dateType.value) {
                     Duration.WEEK.value -> addWeekDataToSpec(it)
@@ -69,7 +80,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
             }
         }
 
-        expense.addSource(expenseRepository.readAllIncomeSpec) {
+        _expense.addSource(expenseRepository.readAllIncomeSpec) {
             when (dateType.value) {
                 Duration.WEEK.value -> addWeekDataToSpec(it)
                 Duration.MONTH.value -> addMonthDataToSpec(it)
@@ -83,7 +94,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
 
 
-        chartData.addSource(expenseRepository.readAllIncomeSpec) {
+        _chartData.addSource(expenseRepository.readAllIncomeSpec) {
             when (dateType.value) {
                 Duration.WEEK.value -> getWeekChartInfo(it)
                 Duration.MONTH.value -> getMonthChartInfo(it)
@@ -92,7 +103,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
         }
 
-        chartData.addSource(expenseRepository.totalLiveIncome) {
+        _chartData.addSource(expenseRepository.totalLiveIncome) {
             expenseRepository.readAllIncomeSpec.value?.let {
                 when (dateType.value) {
                     Duration.WEEK.value -> getWeekChartInfo(it)
@@ -104,7 +115,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
         }
 
-        chartData.addSource(dateType) {
+        _chartData.addSource(dateType) {
             expenseRepository.readAllIncomeSpec.value?.let {
                 when (dateType.value) {
                     Duration.WEEK.value -> getWeekChartInfo(it)
@@ -137,7 +148,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                 }
             }
             isChartDataObserved = false
-            chartData.postValue(list)
+            _chartData.postValue(list)
         }
 
 
@@ -160,7 +171,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                 }
             }
             isChartDataObserved = false
-            chartData.postValue(list)
+            _chartData.postValue(list)
         }
 
     }
@@ -169,10 +180,8 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
         viewModelScope.launch(Dispatchers.IO) {
             val list = mutableListOf<ChartInfo>()
             it.forEach { expenseSpec ->
-                //Log.i(TAG, "getWeekChartInfo: $expenseSpec")
                 try {
                     val value = weekParametric(expenseSpec.title)
-                    Log.i(TAG, "getWeekChartInfo: $value")
                     if (value > 0) {
                         val label = expenseSpec.title
                         val chartInfo = ChartInfo(value, label)
@@ -184,8 +193,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                 }
             }
             isChartDataObserved = false
-            chartData.postValue(list)
-            //Log.i(TAG, "getWeekChartInfo: ${chartData.value}")
+            _chartData.postValue(list)
         }
 
     }
@@ -204,7 +212,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                         val value = yearParametric(expenseSpec.title)
 
                         if (value > 0) {
-                            Log.i(TAG, "viewList: $value")
                             val percent = 100 * value / income
                             expenseSpec.sum = percent
                             list.add(expenseSpec)
@@ -218,7 +225,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                 }
             }
             isChartDataObserved = false
-            expense.postValue(list)
+            _expense.postValue(list)
 
         }
 
@@ -238,7 +245,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                         val value = monthParametric(expenseSpec.title)
 
                         if (value > 0) {
-                            Log.i(TAG, "viewList: $value")
                             val percent = 100 * value / income
                             expenseSpec.sum = percent
                             list.add(expenseSpec)
@@ -252,7 +258,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                 }
             }
             isChartDataObserved = false
-            expense.postValue(list)
+            _expense.postValue(list)
 
         }
 
@@ -271,7 +277,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
                     try {
                         val value = weekParametric(expenseSpec.title)
                         if (value > 0) {
-                            Log.i(TAG, "viewList: $value")
                             val percent = 100 * value / income
                             expenseSpec.sum = percent
                             list.add(expenseSpec)
@@ -284,7 +289,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
 
                 }
             }
-            expense.postValue(list)
+            _expense.postValue(list)
 
         }
     }
@@ -295,7 +300,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
         endDate: Long = Date().time
 
     ): Long? {
-        Log.i(TAG, "yearIncome: ${getPersianDate(startDate)}/${getPersianDate(endDate)}")
         return expenseRepository.weekIncome(startDate, endDate)
     }
 
@@ -312,7 +316,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
         startDate: Long = firsDayOfMonth() - 24 * 60 * 60 * 1000,
         endDate: Long = Date().time
     ): Long? {
-        Log.i(TAG, "monthIncome: $startDate/$endDate")
         return expenseRepository.weekIncome(startDate, endDate)
     }
 
@@ -321,7 +324,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
         startDate: Long = firsDayOfMonth() - 24 * 60 * 60 * 1000,
         endDate: Long = Date().time
     ): Long {
-        Log.i(TAG, "monthIncome: ${getPersianDate(startDate)}/${getPersianDate(endDate)}")
         return expenseRepository.weekParametric(title, startDate, endDate)
 
     }
@@ -331,8 +333,6 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
         startDate: Long = firsDayOfWeek() - 24 * 60 * 60 * 1000,
         endDate: Long = Date().time
     ): Long? {
-        Log.i(TAG, "weekIncome: ${getPersianDate(startDate)}/${getPersianDate(endDate)}")
-        //Log.i(TAG, "weekIncome: $startDate / $endDate")
         return expenseRepository.weekIncome(startDate, endDate)
     }
 
@@ -359,7 +359,7 @@ class IncomeViewModel(private val expenseRepository: ExpenseRepository) : ViewMo
             expense = 0
         }
 
-        balance.value = income - expense
+        _balance.value = income - expense
     }
 
 }

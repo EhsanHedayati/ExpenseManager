@@ -28,7 +28,7 @@
         android:paddingRight="8dp"
         android:paddingTop="3dp"
         android:paddingBottom="3dp"
-        android:textColor="@color/title_color"
+        android:textColor="@color/white"
         android:textDirection="rtl"
         android:textSize="18sp"
         android:textStyle="bold"

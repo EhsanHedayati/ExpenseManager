@@ -13,6 +13,7 @@ import com.mylab.expensemanager.IncomeExpenseTitleAdapter
 import com.mylab.expensemanager.databinding.FragmentExpenseEntryBinding
 import com.mylab.expensemanager.datamodel.Expense
 import com.mylab.expensemanager.datamodel.ExpenseSpec
+import com.mylab.expensemanager.util.NumberTextWatcherForThousand
 import org.koin.android.ext.android.inject
 import java.util.*
 
@@ -42,6 +43,8 @@ class ExpenseEntryFragment : Fragment() {
 
             binding.expenseEntrySpinner.adapter = IncomeExpenseTitleAdapter(requireContext(), it)
         }
+
+        binding.expenseEntryAmount.addTextChangedListener(NumberTextWatcherForThousand(binding.expenseEntryAmount));
 
         binding.dateExpenseEntry.setOnClickListener {
             val minDate: Calendar = Calendar.getInstance()
@@ -92,7 +95,7 @@ class ExpenseEntryFragment : Fragment() {
 
         binding.expenseEntryButton.setOnClickListener {
 
-            val amount = binding.expenseEntryAmount.text.toString()
+            val amount = NumberTextWatcherForThousand.trimCommaOfString(binding.expenseEntryAmount.text.toString())
             val date = binding.dateExpenseEntry.text.toString()
             var desc = binding.expenseEntryDesc.text.toString()
 

@@ -65,7 +65,7 @@ class StartFragment : Fragment() {
 
 
     private suspend fun secondAnimation() {
-        delay(2000)
+        delay(1000)
         val a: Animation =
             AnimationUtils.loadAnimation(requireContext(), R.anim.scale)
         binding.tv2.startAnimation(a)
@@ -73,7 +73,7 @@ class StartFragment : Fragment() {
     }
 
     private suspend fun enabledButton() {
-        delay(4000)
+        delay(2000)
         binding.startButton.visibility = View.VISIBLE
     }
 

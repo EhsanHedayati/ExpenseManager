@@ -48,7 +48,7 @@ class ExpenseFragment : Fragment() {
         val listAdapter = IncomeListAdapter()
         binding.expenseRecycler.adapter = listAdapter
         weekInfo(listAdapter)
-        getWeekChart()
+        observeChartData()
         observeExpense(listAdapter)
 
 
@@ -56,7 +56,6 @@ class ExpenseFragment : Fragment() {
             expenseViewModel.dateType.value = Duration.WEEK.value
             listAdapter.submitList(emptyList())
             weekInfo(listAdapter)
-            getWeekChart()
 
         }
 
@@ -64,7 +63,6 @@ class ExpenseFragment : Fragment() {
             expenseViewModel.dateType.value = Duration.MONTH.value
             listAdapter.submitList(emptyList())
             monthInfo(listAdapter)
-            getMonthChart()
 
         }
 
@@ -72,7 +70,6 @@ class ExpenseFragment : Fragment() {
             expenseViewModel.dateType.value = Duration.YEAR.value
             listAdapter.submitList(emptyList())
             yearInfo(listAdapter)
-            getYearChart()
 
         }
 
@@ -82,49 +79,27 @@ class ExpenseFragment : Fragment() {
 
     }
 
+    val barEntry = ArrayList<BarEntry>()
+    val labelsName = ArrayList<String>()
 
-    private fun getYearChart() {
-
-        val barEntry = ArrayList<BarEntry>()
-        val labelsName = ArrayList<String>()
-        expenseViewModel.chartData.observe(viewLifecycleOwner) {
-            it.forEachIndexed { index, chartInfo ->
-                barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
-                labelsName.add(chartInfo.label)
-            }
-            chartSettings(barEntry, labelsName)
-
-
-        }
-
-    }
-
-    private fun getMonthChart() {
-        val barEntry = ArrayList<BarEntry>()
-        val labelsName = ArrayList<String>()
+    private fun observeChartData() {
 
         expenseViewModel.chartData.observe(viewLifecycleOwner) {
-            it.forEachIndexed { index, chartInfo ->
-                barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
-                labelsName.add(chartInfo.label)
+            barEntry.clear()
+            binding.expenseBarChart.invalidate()
+            binding.expenseBarChart.clear()
+
+            if (!expenseViewModel.isChartDataObserved) {
+
+                it.forEachIndexed { index, chartInfo ->
+                    barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
+                    labelsName.add(chartInfo.label)
+                }
+
+
+                chartSettings(barEntry, labelsName)
             }
-            chartSettings(barEntry, labelsName)
-
         }
-    }
-
-    private fun getWeekChart() {
-        val barEntry = ArrayList<BarEntry>()
-        val labelsName = ArrayList<String>()
-        expenseViewModel.chartData.observe(viewLifecycleOwner) {
-            it.forEachIndexed { index, chartInfo ->
-                barEntry.add(BarEntry(index.toFloat(), chartInfo.value.toFloat()))
-                labelsName.add(chartInfo.label)
-            }
-            chartSettings(barEntry, labelsName)
-
-        }
-
     }
 
     private fun chartSettings(
@@ -150,6 +125,8 @@ class ExpenseFragment : Fragment() {
         yAxisLeft.textColor = ContextCompat.getColor(requireContext(), R.color.white)
         yAxisLeft.typeface = tf
         yAxisLeft.textSize = 12f
+        yAxisLeft.granularity = 1.0f;
+        yAxisLeft.setGranularityEnabled(true)
         xAxis.typeface = tf
         xAxis.textSize = 12f
         xAxis.valueFormatter = object : IndexAxisValueFormatter(labelsName) {}

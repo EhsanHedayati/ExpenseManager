@@ -53,7 +53,6 @@ class AddIncomeExpenseFragment : Fragment() {
             }
             addExpenseIncomeViewModel.existenceExpenseSpec(expenseCost)
             addExpenseIncomeViewModel.expenseSpec.observe(viewLifecycleOwner) {
-                Log.i(TAG, "onViewCreated: $it")
 
                 if (it == null) {
                     val expenseSpec = ExpenseSpec(0, expenseCost, image!!, expenseType, sum)

@@ -50,7 +50,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_toStartOf="@+id/balance"
                 android:layout_centerVertical="true"
-                android:text="@{mainModel.balance.toString()}"
+                app:amount="@{mainModel.balance.toString()}"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
                 android:textStyle="bold" />

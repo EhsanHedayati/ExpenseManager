@@ -84,7 +84,6 @@ class DetailsViewModel(private val expenseRepository: ExpenseRepository) : ViewM
 
         }
 
-        Log.i(TAG, "addImageToExpense: ${detailsList.value}")
 
     }
 

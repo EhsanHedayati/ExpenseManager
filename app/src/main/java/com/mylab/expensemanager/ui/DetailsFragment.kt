@@ -55,15 +55,13 @@ class DetailsFragment : Fragment() {
 
         binding.detailsRecycler.apply {
             adapter = detailsAdapter
-            var itemDecoration =
+            val itemDecoration =
                 DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
             addItemDecoration(itemDecoration)
         }
 
         detailsViewModel.detailsList.observe(viewLifecycleOwner) {
-
             detailsAdapter.submitList(it)
-            Log.i(TAG, "onViewCreated: $it")
         }
 
 
@@ -81,7 +79,6 @@ class DetailsFragment : Fragment() {
 
             amountType = it
 
-            Log.i(TAG, "onViewCreated: $it")
             if (it == 0) {
                 binding.incomeSpinner.setSelection(0)
                 binding.incomeSpinner.isEnabled = false
@@ -106,8 +103,6 @@ class DetailsFragment : Fragment() {
                 ) {
                     expenseSpec = parent?.getItemAtPosition(position) as ExpenseSpec
                     title = expenseSpec?.title
-                    Log.i(TAG, "onItemSelected: $title")
-
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -126,7 +121,6 @@ class DetailsFragment : Fragment() {
                 ) {
                     expenseSpec = parent?.getItemAtPosition(position) as ExpenseSpec
                     title = expenseSpec?.title
-                    Log.i(TAG, "onItemSelected: $title")
 
                 }
 
@@ -170,7 +164,6 @@ class DetailsFragment : Fragment() {
                         //binding.dateExpenseEntry.text = "$year / $month / $day"
                         startMillie = calendar?.timeInMillis
                         binding.startDate.text = "$year / $month / $day"
-                        Log.i(TAG, "onViewCreated: $startMillie")
 
                     }
                     .show(it1.supportFragmentManager, "")
@@ -199,7 +192,6 @@ class DetailsFragment : Fragment() {
                         //binding.dateExpenseEntry.text = "$year / $month / $day"
                         endMillie = calendar?.timeInMillis
                         binding.endDate.text = "$year / $month / $day"
-                        Log.i(TAG, "onViewCreated: $endMillie")
 
                     }
                     .show(it1.supportFragmentManager, "")
@@ -208,11 +200,9 @@ class DetailsFragment : Fragment() {
         }
 
         binding.searchButton.setOnClickListener {
-            Log.i(TAG, "onViewCreated: $title")
 
             detailsViewModel.detailsList.observe(viewLifecycleOwner) {
                 detailsAdapter.submitList(it)
-                Log.i(TAG, "onViewCreated: $it")
             }
 
 
